@@ -7,4 +7,11 @@
     <string name="signup">التسجيل</string>
     <string name="invalid_email">Invalid email</string>
     <string name="invalid_password">Invalid password</string>
+    <string name="err_msg_problem_in_psswrd_or_email">هناك خطأ ما في البريد الإلكتروني او كلمة السر برجاء المحاولة لاحقا</string>
+    <string name="err_msg_not_registered">اهذة البيانات غير مسجلة برجاء التسجيل اولاً</string>
+    <string name="err_msg_weak_psswrd">كلمة السر ضعيفة، برجاء تغيريها</string>
+    <string name="sign_out_msg">الى اللقاء ننتظرك مرة اخرى</string>
+    <string name="msg_login_success">دخول ناجح</string>
+    <string name="err_msg_email">هناك خطأ  في  البريد الإلكتروني</string>
+    <string name="err_msg_user_data_is_registered">"هذا البريد الإلكتروني مسجل سابقا "</string>
 </resources>
