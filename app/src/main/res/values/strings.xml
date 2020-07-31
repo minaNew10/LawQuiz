@@ -14,4 +14,6 @@
     <string name="msg_login_success">دخول ناجح</string>
     <string name="err_msg_email">هناك خطأ  في  البريد الإلكتروني</string>
     <string name="err_msg_user_data_is_registered">"هذا البريد الإلكتروني مسجل سابقا "</string>
+    <string name="main_questions_categories_title">تصنيفات الأسئلة الرئيسية</string>
+    <string name="registeration_title">تسجيل البيانات</string>
 </resources>

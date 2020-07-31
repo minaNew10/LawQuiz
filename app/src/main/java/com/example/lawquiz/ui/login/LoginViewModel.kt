@@ -1,4 +1,4 @@
-package com.example.lawquiz
+package com.example.lawquiz.ui.login
 
 import android.R.attr
 import android.app.Activity

@@ -1,4 +1,4 @@
-package com.example.lawquiz
+package com.example.lawquiz.ui.login
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,6 +9,8 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import com.example.lawquiz.R
 import com.example.lawquiz.databinding.FragmentLoginBinding
 import com.google.firebase.auth.*
 
@@ -77,6 +79,7 @@ class LoginFragment : Fragment() {
 
                 }else{
                     toastMsg = getString(R.string.msg_login_success)
+                    findNavController().navigate(R.id.action_loginFragment_to_mainCategoriesFragment)
                 }
 
             }else{
@@ -91,7 +94,7 @@ class LoginFragment : Fragment() {
         loginViewModel.signIn(email,psswrd)
     }
     private fun signUp(email: String,psswrd :String){
-        loginViewModel.signUp(email,psswrd)
+        findNavController().navigate(R.id.action_loginFragment_to_registerationFragment)
     }
     private fun signOut(){
         loginViewModel.signOut()
