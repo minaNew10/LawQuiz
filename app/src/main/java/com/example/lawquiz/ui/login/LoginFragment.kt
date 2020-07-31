@@ -24,16 +24,17 @@ private const val TAG = "LoginFragment"
 class LoginFragment : Fragment() {
     lateinit var loginToast: Toast
     private lateinit var loginViewModel: LoginViewModel
-    private lateinit var binding : FragmentLoginBinding
+
+    private var _binding: FragmentLoginBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         loginViewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
-        binding = DataBindingUtil.inflate(
+        _binding = FragmentLoginBinding.inflate(
             inflater,
-            R.layout.fragment_login,
             container,
             false
         )
@@ -41,16 +42,19 @@ class LoginFragment : Fragment() {
         binding.btnLogin.isEnabled = true
         binding.txtvRegister.isEnabled = true
         binding.btnLogin.setOnClickListener{
-            signIn(binding.etxtEmailLogin.text.toString(),binding.etxtPsswrdLogin.text.toString())
+//            var email  = binding.etxtEmailLogin.text.toString()
+//            var psswrd = binding.etxtPsswrdLogin.text.toString()
+            signIn("mina@gmail.com","1234567")
         }
         binding.txtvRegister.setOnClickListener{
-            signUp(binding.etxtEmailLogin.text.toString(),binding.etxtPsswrdLogin.text.toString())
+           // signUp(binding.etxtEmailLogin.text.toString(),binding.etxtPsswrdLogin.text.toString())
         }
         binding.txtvAppName.setOnClickListener{
             signOut()
         }
         // Inflate the layout for this fragment
-        return binding.root
+        val view = binding.root
+        return view
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -88,13 +92,26 @@ class LoginFragment : Fragment() {
             loginToast.setText(toastMsg)
             loginToast.show()
         })
+//        loginViewModel.loginFormState.observe(this@LoginFragment, Observer {
+//            val loginState = it ?: return@Observer
+//
+//            // disable login button unless both username / password is valid
+//            binding.btnLogin.isEnabled = loginState.isDataValid
+//
+//            if (loginState.usernameError != null) {
+//                binding.etxtEmailLogin.error = getString(loginState.usernameError)
+//            }
+//            if (loginState.passwordError != null) {
+//                binding.etxtPsswrdLogin = getString(loginState.passwordError)
+//            }
+//        })
     }
 
     private fun signIn(email: String,psswrd :String){
         loginViewModel.signIn(email,psswrd)
     }
     private fun signUp(email: String,psswrd :String){
-        findNavController().navigate(R.id.action_loginFragment_to_registerationFragment)
+        loginViewModel.signUp(email,psswrd)
     }
     private fun signOut(){
         loginViewModel.signOut()
@@ -102,4 +119,13 @@ class LoginFragment : Fragment() {
         loginToast.show();
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+    }
 }
