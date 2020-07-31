@@ -6,5 +6,14 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
-
+    <style name="btns">
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Large</item>
+        <item name="android:textColor">@color/colorPrimaryLight</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="fontFamily">cursive</item>
+        <item name="android:background">@drawable/rectangle_drawable</item>
+        <item name="android:padding">@dimen/btn_padding</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
 </resources>

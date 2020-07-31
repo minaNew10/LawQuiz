@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">LawQuiz</string>
+    <string name="app_name">إعرف قانونك</string>
+    <string name="email">البريد الإلكتروني</string>
+    <string name="password">كلمة المرور</string>
+    <string name="user_is_not_registered">عفواً ..هذا المستخدم غير مسجل</string>
+    <string name="login">دخول</string>
+    <string name="signup">التسجيل</string>
+    <string name="invalid_email">Invalid email</string>
+    <string name="invalid_password">Invalid password</string>
 </resources>
