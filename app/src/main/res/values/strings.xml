@@ -6,7 +6,7 @@
     <string name="login">دخول</string>
     <string name="signup">التسجيل</string>
     <string name="invalid_email">Invalid email</string>
-    <string name="invalid_password">Invalid password</string>
+    <string name="invalid_password">كلمة السر لا تقل عن 6 حروف</string>
     <string name="err_msg_problem_in_psswrd_or_email">هناك خطأ ما في البريد الإلكتروني او كلمة السر برجاء المحاولة لاحقا</string>
     <string name="err_msg_not_registered">اهذة البيانات غير مسجلة برجاء التسجيل اولاً</string>
     <string name="err_msg_weak_psswrd">كلمة السر ضعيفة، برجاء تغيريها</string>
@@ -16,4 +16,5 @@
     <string name="err_msg_user_data_is_registered">"هذا البريد الإلكتروني مسجل سابقا "</string>
     <string name="main_questions_categories_title">تصنيفات الأسئلة الرئيسية</string>
     <string name="registeration_title">تسجيل البيانات</string>
+    <string name="invalid_username">البريد الإلكتروني  به خطأ</string>
 </resources>

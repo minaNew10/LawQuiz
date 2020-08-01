@@ -5,8 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.Toast
-import androidx.databinding.DataBindingUtil
+import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -32,29 +33,98 @@ class LoginFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         loginViewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
         _binding = FragmentLoginBinding.inflate(
             inflater,
             container,
             false
         )
+        var btnLogin = binding.btnLogin
+        var etxtEmail = binding.etxtEmailLogin
+        var etxtpsswrd = binding.etxtPsswrdLogin
+        var txtvRegister = binding.txtvRegister
         setupViewModel()
-        binding.btnLogin.isEnabled = true
-        binding.txtvRegister.isEnabled = true
-        binding.btnLogin.setOnClickListener{
-//            var email  = binding.etxtEmailLogin.text.toString()
-//            var psswrd = binding.etxtPsswrdLogin.text.toString()
-            signIn("mina@gmail.com","1234567")
+        btnLogin.isEnabled = true
+        txtvRegister.isEnabled = true
+        btnLogin.setOnClickListener{
+            var email  = binding.etxtEmailLogin.text.toString()
+            var psswrd = binding.etxtPsswrdLogin.text.toString()
+            signIn(email,psswrd)
         }
-        binding.txtvRegister.setOnClickListener{
-           // signUp(binding.etxtEmailLogin.text.toString(),binding.etxtPsswrdLogin.text.toString())
+        txtvRegister.setOnClickListener{
+            if(!entryDataEmpty()!!)
+              signUp(binding.etxtEmailLogin.text.toString(),binding.etxtPsswrdLogin.text.toString())
+            else
+                Toast.makeText(activity,"برجاء ادخال بيانات التسجيل كاملة",Toast.LENGTH_SHORT).show()
         }
         binding.txtvAppName.setOnClickListener{
             signOut()
         }
+        //listen to changes on data on the layout and pass these changes to the layout
+        etxtEmail.apply {
+//            doAfterTextChanged {
+//                loginViewModel.loginDataChanged(
+//                    this.text.toString(),
+//                    etxtpsswrd.text.toString()
+//                )
+//            }
+
+           setOnFocusChangeListener{
+               _,focused ->
+               if(!focused){
+                   loginViewModel.loginDataChanged(
+                       this.text.toString(),
+                       etxtpsswrd.text.toString()
+                   )
+               }
+           }
+        }
+
+        etxtpsswrd.apply {
+
+//           setOnFocusChangeListener{
+//               _,focused ->
+//               if(focused){
+//                   loginViewModel.loginDataChanged(
+//                       etxtEmail.text.toString(),
+//                       this.text.toString()
+//                   )
+//               }
+//           }
+            doAfterTextChanged {
+                loginViewModel.loginDataChanged(
+                    etxtEmail.text.toString(),
+                    this.text.toString()
+                )
+            }
+            setOnEditorActionListener{_, actionId,_ ->
+                when(actionId){
+                    EditorInfo.IME_ACTION_DONE ->
+                        loginViewModel.signIn(
+                            etxtEmail.text.toString(),
+                            this.text.toString()
+                        )
+                }
+                false
+            }
+            btnLogin.setOnClickListener {
+                loginViewModel.signIn(
+                    etxtEmail.text.toString(),
+                    this.text.toString()
+                )
+            }
+        }
         // Inflate the layout for this fragment
         val view = binding.root
         return view
+    }
+
+    private fun entryDataEmpty(): Boolean? {
+        return when{
+            binding.etxtEmailLogin.text!!.trim().isEmpty() || binding.etxtPsswrdLogin.text!!.trim().isEmpty() -> true
+            else -> false
+        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -92,19 +162,24 @@ class LoginFragment : Fragment() {
             loginToast.setText(toastMsg)
             loginToast.show()
         })
-//        loginViewModel.loginFormState.observe(this@LoginFragment, Observer {
-//            val loginState = it ?: return@Observer
-//
-//            // disable login button unless both username / password is valid
-//            binding.btnLogin.isEnabled = loginState.isDataValid
-//
-//            if (loginState.usernameError != null) {
-//                binding.etxtEmailLogin.error = getString(loginState.usernameError)
-//            }
-//            if (loginState.passwordError != null) {
-//                binding.etxtPsswrdLogin = getString(loginState.passwordError)
-//            }
-//        })
+        loginViewModel.loginFormState.observe(viewLifecycleOwner, Observer {
+            val loginState = it ?: return@Observer
+
+            // disable login button unless both username / password is valid
+            if(loginState.isDataValid) {
+                binding.btnLogin.isEnabled = true
+                binding.btnLogin.alpha = 1F
+            }else{
+                binding.btnLogin.isEnabled = false
+                binding.btnLogin.alpha = .5F
+            }
+            if (loginState.emailError != null) {
+                binding.etxtEmailLogin.error = getString(loginState.emailError)
+            }
+            if (loginState.passwordError != null) {
+                binding.etxtPsswrdLogin.error = getString(loginState.passwordError)
+            }
+        })
     }
 
     private fun signIn(email: String,psswrd :String){
