@@ -1,5 +1,6 @@
 package com.example.lawquiz.ui.login
 
+import android.accounts.NetworkErrorException
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -13,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.lawquiz.R
 import com.example.lawquiz.databinding.FragmentLoginBinding
+import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.*
 
 
@@ -148,6 +150,8 @@ class LoginFragment : Fragment() {
                             is FirebaseAuthWeakPasswordException -> getString(R.string.err_msg_weak_psswrd)
                             is FirebaseAuthEmailException -> getString(R.string.err_msg_email)
                             is FirebaseAuthUserCollisionException -> getString(R.string.err_msg_user_data_is_registered)
+                            is NetworkErrorException -> getString(R.string.network_error)
+                            is FirebaseNetworkException -> getString(R.string.network_error)
                             else -> it.exception.toString()
                         }
 
@@ -161,6 +165,10 @@ class LoginFragment : Fragment() {
             }
             loginToast.setText(toastMsg)
             loginToast.show()
+        })
+        // Observer for the network error.
+         loginViewModel.eventNetworkError.observe(viewLifecycleOwner, Observer<Boolean> { isNetworkError ->
+            if (isNetworkError) onNetworkError()
         })
         loginViewModel.loginFormState.observe(viewLifecycleOwner, Observer {
             val loginState = it ?: return@Observer
@@ -181,7 +189,12 @@ class LoginFragment : Fragment() {
             }
         })
     }
-
+    private fun onNetworkError() {
+        if(!loginViewModel.isNetworkErrorShown.value!!) {
+            Toast.makeText(activity, getString(R.string.network_error), Toast.LENGTH_LONG).show()
+            loginViewModel.onNetworkErrorShown()
+        }
+    }
     private fun signIn(email: String,psswrd :String){
         loginViewModel.signIn(email,psswrd)
     }
