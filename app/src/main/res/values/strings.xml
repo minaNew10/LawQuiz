@@ -19,4 +19,5 @@
     <string name="invalid_username">البريد الإلكتروني  به خطأ</string>
     <string name="sign_out">Sign out</string>
     <string name="network_error">تأكد من اتصالك بالإنترنت</string>
+    <string name="database_name">quizzes</string>
 </resources>
