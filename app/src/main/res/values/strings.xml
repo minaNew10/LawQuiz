@@ -17,4 +17,6 @@
     <string name="main_questions_categories_title">تصنيفات الأسئلة الرئيسية</string>
     <string name="registeration_title">تسجيل البيانات</string>
     <string name="invalid_username">البريد الإلكتروني  به خطأ</string>
+    <string name="sign_out">Sign out</string>
+    <string name="network_error">تأكد من اتصالك بالإنترنت</string>
 </resources>

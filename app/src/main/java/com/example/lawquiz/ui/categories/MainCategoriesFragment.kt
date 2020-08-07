@@ -1,9 +1,7 @@
 package com.example.lawquiz.ui.categories
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -23,6 +21,7 @@ class MainCategoriesFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        setHasOptionsMenu(true)
         return inflater.inflate(R.layout.main_categories_fragment, container, false)
     }
 
@@ -39,4 +38,8 @@ class MainCategoriesFragment : Fragment() {
         actionBar?.setAlign(activity as AppCompatActivity,getString(R.string.main_questions_categories_title))
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_main_categories,menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
 }

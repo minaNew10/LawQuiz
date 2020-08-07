@@ -9,7 +9,9 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import java.io.IOException
 
+enum class LoginStatus {LOADING,DONE,IDLE}
 
 class LoginViewModel: ViewModel(){
     private var mAuth: FirebaseAuth? = null
@@ -26,22 +28,35 @@ class LoginViewModel: ViewModel(){
     val authResult: LiveData<Task<AuthResult?>>
         get() = _authResult
 
+
+    // The internal MutableLiveData String that stores the most recent response
+    private val _status = MutableLiveData<LoginStatus>()
+
+    // The external immutable LiveData for the response String
+    val status: LiveData<LoginStatus>
+        get() = _status
     init {
         mAuth = FirebaseAuth.getInstance();
         _loggedInUser.value = mAuth?.currentUser
+        _status.value = LoginStatus.IDLE
     }
 
     fun signIn(email :String, password: String){
-       mAuth?.signInWithEmailAndPassword(email, password)?.addOnCompleteListener{
-           _authResult.value = it
+        _status.value = LoginStatus.LOADING
+        mAuth?.signInWithEmailAndPassword(email, password)?.addOnCompleteListener {
+            _authResult.value = it
+            _status.value = LoginStatus.DONE
         }
-
     }
+
     fun signUp(email: String, password :String){
+        _status.value = LoginStatus.LOADING
       mAuth?.createUserWithEmailAndPassword(email, password)?.addOnCompleteListener{
           _authResult.value = it
+          _status.value = LoginStatus.DONE
       }
     }
+
     fun signOut(){
         mAuth?.signOut()
 

@@ -25,8 +25,10 @@ private const val TAG = "LoginFragment"
  * create an instance of this fragment.
  */
 class LoginFragment : Fragment() {
-    lateinit var loginToast: Toast
-    private lateinit var loginViewModel: LoginViewModel
+    private lateinit var loginToast: Toast
+    private val loginViewModel: LoginViewModel by lazy {
+        ViewModelProvider(this).get(LoginViewModel::class.java)
+    }
 
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
@@ -36,12 +38,14 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        loginViewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
+
         _binding = FragmentLoginBinding.inflate(
             inflater,
             container,
             false
         )
+        binding.setLifecycleOwner(viewLifecycleOwner)
+        binding.viewModel = loginViewModel
         var btnLogin = binding.btnLogin
         var etxtEmail = binding.etxtEmailLogin
         var etxtpsswrd = binding.etxtPsswrdLogin
@@ -166,10 +170,7 @@ class LoginFragment : Fragment() {
             loginToast.setText(toastMsg)
             loginToast.show()
         })
-        // Observer for the network error.
-         loginViewModel.eventNetworkError.observe(viewLifecycleOwner, Observer<Boolean> { isNetworkError ->
-            if (isNetworkError) onNetworkError()
-        })
+
         loginViewModel.loginFormState.observe(viewLifecycleOwner, Observer {
             val loginState = it ?: return@Observer
 
@@ -189,12 +190,7 @@ class LoginFragment : Fragment() {
             }
         })
     }
-    private fun onNetworkError() {
-        if(!loginViewModel.isNetworkErrorShown.value!!) {
-            Toast.makeText(activity, getString(R.string.network_error), Toast.LENGTH_LONG).show()
-            loginViewModel.onNetworkErrorShown()
-        }
-    }
+
     private fun signIn(email: String,psswrd :String){
         loginViewModel.signIn(email,psswrd)
     }
