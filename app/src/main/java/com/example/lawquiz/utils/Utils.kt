@@ -21,5 +21,6 @@ fun ActionBar.setAlign(activity: Activity,title: String){
     textView.setTextSize(20f);
     textView.setText(title)
     setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM)
+    
     customView = textView
 }

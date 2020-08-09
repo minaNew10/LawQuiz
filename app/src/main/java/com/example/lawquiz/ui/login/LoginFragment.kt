@@ -8,12 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.lawquiz.R
 import com.example.lawquiz.databinding.FragmentLoginBinding
+import com.example.lawquiz.utils.setAlign
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.*
 
@@ -69,12 +71,6 @@ class LoginFragment : Fragment() {
         }
         //listen to changes on data on the layout and pass these changes to the layout
         etxtEmail.apply {
-//            doAfterTextChanged {
-//                loginViewModel.loginDataChanged(
-//                    this.text.toString(),
-//                    etxtpsswrd.text.toString()
-//                )
-//            }
 
            setOnFocusChangeListener{
                _,focused ->
@@ -89,15 +85,6 @@ class LoginFragment : Fragment() {
 
         etxtpsswrd.apply {
 
-//           setOnFocusChangeListener{
-//               _,focused ->
-//               if(focused){
-//                   loginViewModel.loginDataChanged(
-//                       etxtEmail.text.toString(),
-//                       this.text.toString()
-//                   )
-//               }
-//           }
             doAfterTextChanged {
                 loginViewModel.loginDataChanged(
                     etxtEmail.text.toString(),
@@ -140,7 +127,7 @@ class LoginFragment : Fragment() {
     private fun setupViewModel() {
         loginViewModel.loggedInUser.observe(viewLifecycleOwner, Observer {
             it?.let {
-                Toast.makeText(activity,"you r already LoggedIn",Toast.LENGTH_LONG).show()
+                findNavController().navigate(R.id.action_loginFragment_to_mainCategoriesFragment)
             } ?: Toast.makeText(activity,"session ended",Toast.LENGTH_LONG).show()
         })
         loginViewModel.authResult.observe(viewLifecycleOwner, Observer {
@@ -156,7 +143,7 @@ class LoginFragment : Fragment() {
                             is FirebaseAuthUserCollisionException -> getString(R.string.err_msg_user_data_is_registered)
                             is NetworkErrorException -> getString(R.string.network_error)
                             is FirebaseNetworkException -> getString(R.string.network_error)
-                            else -> it.exception.toString()
+                            else -> getString(R.string.err_msg_problem_in_psswrd_or_email)
                         }
 
                 }else{
@@ -208,8 +195,11 @@ class LoginFragment : Fragment() {
         _binding = null
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onResume() {
+        super.onResume()
+        var actionBar = (activity as AppCompatActivity).supportActionBar
+        actionBar?.hide()
 
     }
+
 }

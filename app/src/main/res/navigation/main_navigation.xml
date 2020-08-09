@@ -12,26 +12,20 @@
         <action
             android:id="@+id/action_loginFragment_to_mainCategoriesFragment"
             app:destination="@id/mainCategoriesFragment"
-            app:popUpToInclusive="true" />
-        <action
-            android:id="@+id/action_loginFragment_to_registerationFragment"
-            app:destination="@id/registerationFragment"
             app:popUpTo="@id/main_navigation"
             app:popUpToInclusive="true" />
+
     </fragment>
     <fragment
         android:id="@+id/mainCategoriesFragment"
         android:name="com.example.lawquiz.ui.categories.MainCategoriesFragment"
         android:label="main_categories_fragment"
-        tools:layout="@layout/main_categories_fragment" />
-    <fragment
-        android:id="@+id/registerationFragment"
-        android:name="com.example.lawquiz.ui.registeration.RegisterationFragment"
-        android:label="registeration_fragment"
-        tools:layout="@layout/registeration_fragment" >
+        tools:layout="@layout/main_categories_fragment" >
         <action
-            android:id="@+id/action_registerationFragment_to_mainCategoriesFragment"
-            app:destination="@id/mainCategoriesFragment"
+            android:id="@+id/action_mainCategoriesFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/main_navigation"
             app:popUpToInclusive="true" />
     </fragment>
+
 </navigation>

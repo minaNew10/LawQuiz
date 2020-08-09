@@ -5,6 +5,7 @@ import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.lawquiz.R
 import com.example.lawquiz.utils.setAlign
 
@@ -39,7 +40,25 @@ class MainCategoriesFragment : Fragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+
         inflater.inflate(R.menu.menu_main_categories,menu)
+
         super.onCreateOptionsMenu(menu, inflater)
+    }
+
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.sign_out ->  {
+                    viewModel.signOut()
+                    findNavController().navigate(R.id.action_mainCategoriesFragment_to_loginFragment)
+                    return true
+            }
+            else -> {
+                return super.onOptionsItemSelected(item)
+            }
+
+        }
+
     }
 }

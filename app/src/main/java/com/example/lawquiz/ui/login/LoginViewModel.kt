@@ -9,12 +9,16 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import java.io.IOException
 
 enum class LoginStatus {LOADING,DONE,IDLE}
 
 class LoginViewModel: ViewModel(){
     private var mAuth: FirebaseAuth? = null
+
+    private val _eventLoginToApp = MutableLiveData<Boolean>()
+        val eventLoginToApp: LiveData<Boolean>
+            get() = _eventLoginToApp
+
 
     private val _loginForm = MutableLiveData<LoginFormState>()
     val loginFormState: LiveData<LoginFormState> = _loginForm
@@ -30,30 +34,34 @@ class LoginViewModel: ViewModel(){
 
 
     // The internal MutableLiveData String that stores the most recent response
-    private val _status = MutableLiveData<LoginStatus>()
+    private val _login_status = MutableLiveData<LoginStatus>()
 
     // The external immutable LiveData for the response String
-    val status: LiveData<LoginStatus>
-        get() = _status
+    val login_status: LiveData<LoginStatus>
+        get() = _login_status
     init {
         mAuth = FirebaseAuth.getInstance();
         _loggedInUser.value = mAuth?.currentUser
-        _status.value = LoginStatus.IDLE
+        _login_status.value = LoginStatus.IDLE
     }
-
+    fun onLoginOrSignUp(){
+        _eventLoginToApp.value = true
+    }
     fun signIn(email :String, password: String){
-        _status.value = LoginStatus.LOADING
+        _login_status.value = LoginStatus.LOADING
         mAuth?.signInWithEmailAndPassword(email, password)?.addOnCompleteListener {
             _authResult.value = it
-            _status.value = LoginStatus.DONE
+            _login_status.value = LoginStatus.DONE
+            onLoginOrSignUp()
         }
     }
 
     fun signUp(email: String, password :String){
-        _status.value = LoginStatus.LOADING
+        _login_status.value = LoginStatus.LOADING
       mAuth?.createUserWithEmailAndPassword(email, password)?.addOnCompleteListener{
           _authResult.value = it
-          _status.value = LoginStatus.DONE
+          _login_status.value = LoginStatus.DONE
+          onLoginOrSignUp()
       }
     }
 
@@ -85,5 +93,7 @@ class LoginViewModel: ViewModel(){
     private fun isPasswordValid(password: String): Boolean {
         return password.length > 5
     }
-
+    private fun onLoginFinished(){
+        _eventLoginToApp.value = false
+    }
 }
