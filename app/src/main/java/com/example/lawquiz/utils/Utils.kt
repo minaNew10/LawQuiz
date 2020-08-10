@@ -8,6 +8,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.ActionBar
 import androidx.core.app.ActivityCompat
+import androidx.recyclerview.widget.RecyclerView
 import com.example.lawquiz.R
 
 fun ActionBar.setAlign(activity: Activity,title: String){
@@ -24,3 +25,11 @@ fun ActionBar.setAlign(activity: Activity,title: String){
     
     customView = textView
 }
+
+/**
+ * ViewHolder that holds a single [TextView].
+ *
+ * A ViewHolder holds a view for the [RecyclerView] as well as providing additional information
+ * to the RecyclerView such as where on the screen it was last drawn during scrolling.
+ */
+class CategoryItemViewHolder(val textView: TextView): RecyclerView.ViewHolder(textView)

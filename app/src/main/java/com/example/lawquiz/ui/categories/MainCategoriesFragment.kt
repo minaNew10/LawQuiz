@@ -3,34 +3,43 @@ package com.example.lawquiz.ui.categories
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.lawquiz.R
+import com.example.lawquiz.databinding.FragmentLoginBinding
+import com.example.lawquiz.databinding.MainCategoriesFragmentBinding
+import com.example.lawquiz.ui.login.LoginViewModel
 import com.example.lawquiz.utils.setAlign
 
 
 class MainCategoriesFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = MainCategoriesFragment()
+
+    private var _binding: MainCategoriesFragmentBinding? = null
+    private val binding get() = _binding!!
+    private val viewModel: MainCategoriesViewModel  by lazy {
+        ViewModelProvider(this).get(MainCategoriesViewModel::class.java)
     }
 
-    private lateinit var viewModel: MainCategoriesViewModel
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+//        val binding : MainCategoriesFragmentBinding = DataBindingUtil.inflate(inflater,
+//                    R.layout.main_categories_fragment,container,false)
+        _binding = DataBindingUtil.inflate(inflater,
+                    R.layout.main_categories_fragment,container,false)
+        val adapter = CategoriesAdapter()
+        binding.mainCategoriesList.adapter = adapter
         setHasOptionsMenu(true)
-        return inflater.inflate(R.layout.main_categories_fragment, container, false)
+        var v = binding.root
+        return v
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(MainCategoriesViewModel::class.java)
-
-    }
 
     override fun onResume() {
         super.onResume()
