@@ -1,13 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:textSize="24dp"
-    android:textColor="@color/colorTextIcons"
-    android:textStyle="bold"
-    android:paddingStart="32dp"
-    android:paddingEnd="32dp"
-    android:padding="8dp"
-    android:layout_margin="8dp"
-    android:background="@drawable/rectangle_drawable"
-    android:elevation="4dp"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content" />
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="name"
+            type="String" />
+        <variable
+            name="clickListener"
+            type="com.example.lawquiz.ui.categories.BranchClickListener" />
+    </data>
+
+    <TextView
+        android:id="@+id/txtv_item_cat_name"
+        android:textSize="24dp"
+        android:textColor="@color/colorTextIcons"
+        android:textStyle="bold"
+        android:paddingStart="32dp"
+        android:paddingEnd="32dp"
+        android:text="@{name}"
+        android:onClick="@{() -> clickListener.onClick(name)}"
+        android:padding="8dp"
+        android:layout_margin="8dp"
+        android:background="@drawable/rectangle_drawable"
+        android:elevation="4dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</layout>

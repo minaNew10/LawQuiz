@@ -2,6 +2,7 @@ package com.example.lawquiz.ui.categories
 
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -11,7 +12,6 @@ import androidx.navigation.fragment.findNavController
 import com.example.lawquiz.R
 import com.example.lawquiz.databinding.FragmentLoginBinding
 import com.example.lawquiz.databinding.MainCategoriesFragmentBinding
-import com.example.lawquiz.ui.login.LoginViewModel
 import com.example.lawquiz.utils.setAlign
 
 
@@ -34,7 +34,9 @@ class MainCategoriesFragment : Fragment() {
 //                    R.layout.main_categories_fragment,container,false)
         _binding = DataBindingUtil.inflate(inflater,
                     R.layout.main_categories_fragment,container,false)
-        val adapter = CategoriesAdapter()
+        val adapter = CategoriesAdapter(BranchClickListener { name ->
+            Toast.makeText(context, name, Toast.LENGTH_LONG).show()
+        })
         binding.mainCategoriesList.adapter = adapter
         viewModel = ViewModelProvider(this).get(MainCategoriesViewModel::class.java)
         viewModel.categories.observe(viewLifecycleOwner, Observer {

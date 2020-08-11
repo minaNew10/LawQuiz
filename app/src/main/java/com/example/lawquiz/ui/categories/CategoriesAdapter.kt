@@ -4,9 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.lawquiz.R
+import com.example.lawquiz.databinding.ItemCategoriesBinding
 
-class CategoriesAdapter : RecyclerView.Adapter<CategoriesAdapter.CategoryItemViewHolder>() {
+class CategoriesAdapter(val clickListener: BranchClickListener) : RecyclerView.Adapter<CategoriesAdapter.CategoryItemViewHolder>() {
     var data = listOf<String>()
         set(value) {
             field = value
@@ -20,7 +20,7 @@ class CategoriesAdapter : RecyclerView.Adapter<CategoriesAdapter.CategoryItemVie
 
     override fun onBindViewHolder(holder: CategoryItemViewHolder, position: Int) {
         val item = data[position]
-        holder.bind(item)
+        holder.bind(item,clickListener)
     }
 
 
@@ -31,20 +31,29 @@ class CategoriesAdapter : RecyclerView.Adapter<CategoriesAdapter.CategoryItemVie
      * A ViewHolder holds a view for the [RecyclerView] as well as providing additional information
      * to the RecyclerView such as where on the screen it was last drawn during scrolling.
      */
-    class CategoryItemViewHolder private constructor(val textView: TextView): RecyclerView.ViewHolder(textView){
+    class CategoryItemViewHolder private constructor(val binding: ItemCategoriesBinding): RecyclerView.ViewHolder(binding.root){
+
         companion object {
             fun from(parent: ViewGroup): CategoryItemViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
-                val view = layoutInflater.inflate(R.layout.item_categories, parent, false) as TextView
-                return CategoryItemViewHolder(view)
+//                val view = layoutInflater.inflate(R.layout.item_categories, parent, false) as TextView
+                val binding = ItemCategoriesBinding.inflate(layoutInflater,parent,false)
+                return CategoryItemViewHolder(binding)
             }
         }
+
         fun bind(
-            item: String
+            item: String,
+            clickListener: BranchClickListener
         ) {
-            textView.text = item
+            binding.name = item
+            binding.clickListener = clickListener
+
         }
     }
 
 
+}
+class BranchClickListener(val clickListener: (catName: String) -> Unit) {
+    fun onClick(mainCatName: String) = clickListener(mainCatName)
 }
