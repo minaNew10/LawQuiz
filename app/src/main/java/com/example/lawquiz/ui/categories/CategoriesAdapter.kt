@@ -8,7 +8,7 @@ import com.example.lawquiz.R
 import com.example.lawquiz.utils.CategoryItemViewHolder
 
 class CategoriesAdapter : RecyclerView.Adapter<CategoryItemViewHolder>() {
-    var data = listOf("category1" , "category2" , "category3" , "category4" , "category5")
+    var data = listOf<String>()
         set(value) {
             field = value
             notifyDataSetChanged()
