@@ -5,9 +5,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.lawquiz.databinding.ItemCategoriesBinding
+import com.example.lawquiz.model.Category
 
 class CategoriesAdapter(val clickListener: BranchClickListener) : RecyclerView.Adapter<CategoriesAdapter.CategoryItemViewHolder>() {
-    var data = listOf<String>()
+    var data = listOf<Category>()
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -43,10 +44,10 @@ class CategoriesAdapter(val clickListener: BranchClickListener) : RecyclerView.A
         }
 
         fun bind(
-            item: String,
+            item: Category,
             clickListener: BranchClickListener
         ) {
-            binding.name = item
+            binding.cat= item
             binding.clickListener = clickListener
 
         }
@@ -54,6 +55,6 @@ class CategoriesAdapter(val clickListener: BranchClickListener) : RecyclerView.A
 
 
 }
-class BranchClickListener(val clickListener: (catName: String) -> Unit) {
-    fun onClick(mainCatName: String) = clickListener(mainCatName)
+class BranchClickListener(val clickListener: (catName: Category) -> Unit) {
+    fun onClick(mainCat: Category) = clickListener(mainCat)
 }

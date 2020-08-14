@@ -1,3 +1,3 @@
 package com.example.lawquiz.model
 
-data class Category(val name :String,val branches : ArrayList<String>)
+data class Category(val name :String?,var branches : ArrayList<String>? = null)

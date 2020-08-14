@@ -3,8 +3,8 @@
 
     <data>
         <variable
-            name="name"
-            type="String" />
+            name="cat"
+            type="com.example.lawquiz.model.Category" />
         <variable
             name="clickListener"
             type="com.example.lawquiz.ui.categories.BranchClickListener" />
@@ -17,8 +17,8 @@
         android:textStyle="bold"
         android:paddingStart="32dp"
         android:paddingEnd="32dp"
-        android:text="@{name}"
-        android:onClick="@{() -> clickListener.onClick(name)}"
+        android:text="@{cat.name}"
+        android:onClick="@{() -> clickListener.onClick(cat)}"
         android:padding="8dp"
         android:layout_margin="8dp"
         android:background="@drawable/rectangle_drawable"

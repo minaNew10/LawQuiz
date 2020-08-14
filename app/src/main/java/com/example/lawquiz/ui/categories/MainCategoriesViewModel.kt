@@ -20,8 +20,8 @@ class MainCategoriesViewModel : ViewModel() {
         val navigateToBranchedCategories: LiveData<String>
             get() = _navigateToBranchedCategories
 
-    private val _categories = MutableLiveData<List<String>>()
-        val categories: LiveData<List<String>>
+    private val _categories = MutableLiveData<ArrayList<Category>>()
+        val categories: LiveData<ArrayList<Category>>
             get() = _categories
 
     private var mAuth: FirebaseAuth? = null
@@ -35,20 +35,30 @@ class MainCategoriesViewModel : ViewModel() {
         _loggedInUser.value = mAuth?.currentUser
         database = Firebase.database.reference
 
-        var list = mutableListOf<String>()
+        var list = ArrayList<Category>()
+
+
         val categoryListener = object :ValueEventListener{
             override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
+
             }
 
             override fun onDataChange(snapshot: DataSnapshot) {
+//                var cat : Category = snapshot.key.let { Category(it) }
                snapshot.children.forEach{
-                   category -> list.add(category.key.toString())
-
-//                   categories.add(category.key.toString())
-//                   Log.i(TAG, "onDataChange: " + categories[0])
+                   var cat =  Category(it.key.toString())
+                   var childrenList = ArrayList<String>()
+                   it.children.forEach {
+                           branch -> if(branch.hasChildren())
+                                     childrenList?.add(branch.key.toString())
+                   }
+                   cat.branches = childrenList
+                   list?.add(cat)
+                   Log.i(TAG, "cat name: ${cat.name} cat branches ${cat.branches.toString()}")
                }
+
                 _categories.value = list
+
             }
 
 
@@ -60,10 +70,9 @@ class MainCategoriesViewModel : ViewModel() {
     fun signOut(){
         mAuth?.signOut()
     }
-    fun onMainCategoryClicked(name: String){
-        _navigateToBranchedCategories.value  = name
+    fun onMainCategoryClicked(cat: Category){
+        _navigateToBranchedCategories.value  = cat.name
     }
-
     fun onBranchedCategoriesNavigated(){
         _navigateToBranchedCategories.value = null
     }
