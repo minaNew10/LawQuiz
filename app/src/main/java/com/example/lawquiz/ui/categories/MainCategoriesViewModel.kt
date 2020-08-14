@@ -16,6 +16,10 @@ import com.google.firebase.database.*
 private const val TAG = "MainCategoriesViewModel"
 class MainCategoriesViewModel : ViewModel() {
 
+    private val _navigateToBranchedCategories = MutableLiveData<String>()
+        val navigateToBranchedCategories: LiveData<String>
+            get() = _navigateToBranchedCategories
+
     private val _categories = MutableLiveData<List<String>>()
         val categories: LiveData<List<String>>
             get() = _categories
@@ -30,8 +34,7 @@ class MainCategoriesViewModel : ViewModel() {
         mAuth = FirebaseAuth.getInstance();
         _loggedInUser.value = mAuth?.currentUser
         database = Firebase.database.reference
-        var long = 0L
-        var string:String? = null
+
         var list = mutableListOf<String>()
         val categoryListener = object :ValueEventListener{
             override fun onCancelled(error: DatabaseError) {
@@ -56,6 +59,12 @@ class MainCategoriesViewModel : ViewModel() {
 
     fun signOut(){
         mAuth?.signOut()
+    }
+    fun onMainCategoryClicked(name: String){
+        _navigateToBranchedCategories.value  = name
+    }
 
+    fun onBranchedCategoriesNavigated(){
+        _navigateToBranchedCategories.value = null
     }
 }

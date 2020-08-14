@@ -26,6 +26,17 @@
             app:destination="@id/loginFragment"
             app:popUpTo="@id/main_navigation"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_mainCategoriesFragment_to_branchedCategories"
+            app:destination="@id/branchedCategories" />
+    </fragment>
+    <fragment
+        android:id="@+id/branchedCategories"
+        android:name="com.example.lawquiz.ui.branchedCategories.BranchedCategoriesFragment"
+        android:label="BranchedCategories" >
+        <argument
+            android:name="main_categroy"
+            app:argType="string" />
     </fragment>
 
 </navigation>

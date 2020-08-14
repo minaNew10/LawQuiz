@@ -143,7 +143,7 @@ class LoginFragment : Fragment() {
                             is FirebaseAuthUserCollisionException -> getString(R.string.err_msg_user_data_is_registered)
                             is NetworkErrorException -> getString(R.string.network_error)
                             is FirebaseNetworkException -> getString(R.string.network_error)
-                            else -> getString(R.string.err_msg_problem_in_psswrd_or_email)
+                            else -> it.exception?.message.toString()
                         }
 
                 }else{

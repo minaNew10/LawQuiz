@@ -2,15 +2,14 @@ package com.example.lawquiz.ui.categories
 
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.example.lawquiz.R
-import com.example.lawquiz.databinding.FragmentLoginBinding
 import com.example.lawquiz.databinding.MainCategoriesFragmentBinding
 import com.example.lawquiz.utils.setAlign
 
@@ -18,8 +17,10 @@ import com.example.lawquiz.utils.setAlign
 class MainCategoriesFragment : Fragment() {
 
 
+
     private var _binding: MainCategoriesFragmentBinding? = null
     private val binding get() = _binding!!
+
 //    private val viewModel: MainCategoriesViewModel  by lazy {
 //        ViewModelProvider(this).get(MainCategoriesViewModel::class.java)
 //    }
@@ -34,19 +35,26 @@ class MainCategoriesFragment : Fragment() {
 //                    R.layout.main_categories_fragment,container,false)
         _binding = DataBindingUtil.inflate(inflater,
                     R.layout.main_categories_fragment,container,false)
+        viewModel = ViewModelProvider(this).get(MainCategoriesViewModel::class.java)
         val adapter = CategoriesAdapter(BranchClickListener { name ->
-            Toast.makeText(context, name, Toast.LENGTH_LONG).show()
+            viewModel.onMainCategoryClicked(name)
         })
         binding.mainCategoriesList.adapter = adapter
-        viewModel = ViewModelProvider(this).get(MainCategoriesViewModel::class.java)
         viewModel.categories.observe(viewLifecycleOwner, Observer {
             adapter.data = it
         })
+        viewModel.navigateToBranchedCategories.observe(viewLifecycleOwner, Observer {
+            name ->
+                name?.let {
+                      val action = MainCategoriesFragmentDirections.actionMainCategoriesFragmentToBranchedCategories(it)
+                      NavHostFragment.findNavController(this).navigate(action)
+                      viewModel.onBranchedCategoriesNavigated()
+                }
+        })
 
-        adapter.notifyDataSetChanged()
         setHasOptionsMenu(true)
-        var v = binding.root
-        return v
+
+        return binding.root
     }
 
 
@@ -62,6 +70,10 @@ class MainCategoriesFragment : Fragment() {
         inflater.inflate(R.menu.menu_main_categories,menu)
 
         super.onCreateOptionsMenu(menu, inflater)
+    }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 
