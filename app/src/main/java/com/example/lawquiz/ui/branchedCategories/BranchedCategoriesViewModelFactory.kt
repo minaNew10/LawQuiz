@@ -16,8 +16,9 @@ package com.example.lawquiz.ui.branchedCategories;/*
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.example.lawquiz.model.Category
 
-class BranchedCategoriesViewModelFactory(private val category: String) : ViewModelProvider.Factory {
+class BranchedCategoriesViewModelFactory(private val category: Category) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(BranchedCategoriesViewModel::class.java)) {

@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.lawquiz.R
 import com.example.lawquiz.databinding.BranchedCategoriesFragmentBinding
+import com.example.lawquiz.model.Category
 import com.example.lawquiz.ui.categories.BranchClickListener
 import com.example.lawquiz.ui.categories.CategoriesAdapter
 import com.example.lawquiz.utils.setAlign
@@ -18,7 +19,7 @@ import com.example.lawquiz.utils.setAlign
     private const val TAG = "BranchedCategories"
 class BranchedCategoriesFragment : Fragment() {
 
-    private lateinit var cat : String
+    private lateinit var category : Category
 
     private var _binding: BranchedCategoriesFragmentBinding? = null
     private val binding get() = _binding!!
@@ -29,18 +30,18 @@ class BranchedCategoriesFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        cat = BranchedCategoriesFragmentArgs.fromBundle(requireArguments()).mainCategroy
+        category = BranchedCategoriesFragmentArgs.fromBundle(requireArguments()).mainCategroy
         _binding = DataBindingUtil.inflate(inflater,
             R.layout.branched_categories_fragment,container,false)
-        viewModelFactory = BranchedCategoriesViewModelFactory(cat)
+        viewModelFactory = BranchedCategoriesViewModelFactory(category)
         viewModel = ViewModelProvider(this,viewModelFactory).get(BranchedCategoriesViewModel::class.java)
-//        val adapter = CategoriesAdapter(BranchClickListener { name ->
-//            viewModel.onBranchedCategoryClicked(name)
-//        })
-//        binding.branchedCategoriesList.adapter = adapter
-//        viewModel.categories.observe(viewLifecycleOwner, Observer {
-//            adapter.data = it
-//        })
+        val adapter = CategoriesAdapter(BranchClickListener { name ->
+            viewModel.onBranchedCategoryClicked(name)
+        })
+        binding.branchedCategoriesList.adapter = adapter
+        viewModel.currCategory.observe(viewLifecycleOwner, Observer {
+            adapter.data = it.branches!!
+        })
         return binding.root
     }
 

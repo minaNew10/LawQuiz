@@ -16,8 +16,8 @@ import com.google.firebase.database.*
 private const val TAG = "MainCategoriesViewModel"
 class MainCategoriesViewModel : ViewModel() {
 
-    private val _navigateToBranchedCategories = MutableLiveData<String>()
-        val navigateToBranchedCategories: LiveData<String>
+    private val _navigateToBranchedCategories = MutableLiveData<Category>()
+        val navigateToBranchedCategories: LiveData<Category>
             get() = _navigateToBranchedCategories
 
     private val _categories = MutableLiveData<ArrayList<Category>>()
@@ -47,18 +47,16 @@ class MainCategoriesViewModel : ViewModel() {
 //                var cat : Category = snapshot.key.let { Category(it) }
                snapshot.children.forEach{
                    var cat =  Category(it.key.toString())
-                   var childrenList = ArrayList<String>()
+                   var childrenList = ArrayList<Category>()
                    it.children.forEach {
                            branch -> if(branch.hasChildren())
-                                     childrenList?.add(branch.key.toString())
+                                     childrenList?.add(Category(name = branch.key.toString(),parent = it.key.toString()))
                    }
                    cat.branches = childrenList
                    list?.add(cat)
-                   Log.i(TAG, "cat name: ${cat.name} cat branches ${cat.branches.toString()}")
+                   
                }
-
                 _categories.value = list
-
             }
 
 
@@ -71,7 +69,7 @@ class MainCategoriesViewModel : ViewModel() {
         mAuth?.signOut()
     }
     fun onMainCategoryClicked(cat: Category){
-        _navigateToBranchedCategories.value  = cat.name
+        _navigateToBranchedCategories.value  = cat
     }
     fun onBranchedCategoriesNavigated(){
         _navigateToBranchedCategories.value = null

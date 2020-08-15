@@ -6,8 +6,8 @@
     <string name="login">دخول</string>
     <string name="signup">التسجيل</string>
     <string name="invalid_email">Invalid email</string>
-    <string name="invalid_password">كلمة السر لا تقل عن 6 حروف</string>
-    <string name="err_msg_problem_in_psswrd_or_email">هناك خطأ ما في البريد الإلكتروني او كلمة السر برجاء المحاولة لاحقا</string>
+    <string name="invalid_password">كلمة المرور لا تقل عن 6 حروف</string>
+    <string name="err_msg_problem_in_psswrd_or_email">هناك خطأ ما في البريد الإلكتروني او كلمة المرور برجاء المحاولة لاحقا</string>
     <string name="err_msg_not_registered">اهذة البيانات غير مسجلة برجاء التسجيل اولاً</string>
     <string name="err_msg_weak_psswrd">كلمة السر ضعيفة، برجاء تغيريها</string>
     <string name="sign_out_msg">الى اللقاء ننتظرك مرة اخرى</string>

@@ -2,6 +2,7 @@ package com.example.lawquiz.ui.categories
 
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -44,11 +45,16 @@ class MainCategoriesFragment : Fragment() {
             adapter.data = it
         })
         viewModel.navigateToBranchedCategories.observe(viewLifecycleOwner, Observer {
-            name ->
-                name?.let {
-                      val action = MainCategoriesFragmentDirections.actionMainCategoriesFragmentToBranchedCategories(it)
-                      NavHostFragment.findNavController(this).navigate(action)
-                      viewModel.onBranchedCategoriesNavigated()
+            categories ->
+                categories?.let {
+                    if(it.branches!!.size > 1) {
+                        val action =
+                            MainCategoriesFragmentDirections.actionMainCategoriesFragmentToBranchedCategories(it)
+                            NavHostFragment.findNavController(this).navigate(action)
+                        viewModel.onBranchedCategoriesNavigated()
+                    }else{
+                        Toast.makeText(activity,"no branches",Toast.LENGTH_SHORT).show()
+                    }
                 }
         })
 

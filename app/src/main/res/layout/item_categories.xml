@@ -20,9 +20,10 @@
         android:text="@{cat.name}"
         android:onClick="@{() -> clickListener.onClick(cat)}"
         android:padding="8dp"
-        android:layout_margin="8dp"
+        android:layout_margin="16dp"
         android:background="@drawable/rectangle_drawable"
         android:elevation="4dp"
-        android:layout_width="wrap_content"
+        android:textAlignment="center"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 </layout>

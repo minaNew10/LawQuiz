@@ -39,7 +39,6 @@
             android:id="@+id/etxt_layout_email_login"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-
             android:background="@drawable/rectangle_drawable"
             android:elevation="4dp"
             app:hintTextColor="@color/colorPrimaryLight"
@@ -66,7 +65,6 @@
             android:layout_marginTop="8dp"
             android:background="@drawable/rectangle_drawable"
             android:elevation="4dp"
-
             app:hintTextColor="@color/colorPrimaryLight"
             app:layout_constraintEnd_toStartOf="@+id/right_guideline"
             app:layout_constraintStart_toStartOf="@+id/left_guideline"
