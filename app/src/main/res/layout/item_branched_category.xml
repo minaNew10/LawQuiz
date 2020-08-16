@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="cat"
+            type="com.example.lawquiz.model.Category" />
+        <variable
+            name="clickListener"
+            type="com.example.lawquiz.ui.branchedCategories.BranchedCategoriesClickListener" />
+
+    </data>
+
+    <TextView
+        android:id="@+id/txtv_item_cat_name"
+        android:textSize="24dp"
+        android:textColor="@color/colorTextIcons"
+        android:textStyle="bold"
+        android:paddingStart="32dp"
+        android:paddingEnd="32dp"
+        android:text="@{cat.name}"
+        android:onClick="@{() -> clickListener.onClick(cat)}"
+        android:padding="8dp"
+        android:layout_margin="16dp"
+        android:background="@drawable/rectangle_drawable"
+        android:elevation="4dp"
+        android:textAlignment="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</layout>

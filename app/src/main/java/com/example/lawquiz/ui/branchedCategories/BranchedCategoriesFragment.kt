@@ -35,7 +35,7 @@ class BranchedCategoriesFragment : Fragment() {
             R.layout.branched_categories_fragment,container,false)
         viewModelFactory = BranchedCategoriesViewModelFactory(category)
         viewModel = ViewModelProvider(this,viewModelFactory).get(BranchedCategoriesViewModel::class.java)
-        val adapter = CategoriesAdapter(BranchClickListener { name ->
+        val adapter = BranchedCategoriesAdapter(BranchedCategoriesClickListener { name ->
             viewModel.onBranchedCategoryClicked(name)
         })
         binding.branchedCategoriesList.adapter = adapter

@@ -54,7 +54,7 @@ class MainCategoriesViewModel : ViewModel() {
                    }
                    cat.branches = childrenList
                    list?.add(cat)
-                   
+
                }
                 _categories.value = list
             }
