@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.lawquiz.databinding.ItemCategoriesBinding
 import com.example.lawquiz.model.Category
 
-class CategoriesAdapter(val clickListener: BranchClickListener) : RecyclerView.Adapter<CategoriesAdapter.CategoryItemViewHolder>() {
+class CategoriesAdapter(val clickListenerMain: MainCategoryClickListener) : RecyclerView.Adapter<CategoriesAdapter.CategoryItemViewHolder>() {
     var data = listOf<Category>()
         set(value) {
             field = value
@@ -21,7 +21,7 @@ class CategoriesAdapter(val clickListener: BranchClickListener) : RecyclerView.A
 
     override fun onBindViewHolder(holder: CategoryItemViewHolder, position: Int) {
         val item = data[position]
-        holder.bind(item,clickListener)
+        holder.bind(item,clickListenerMain)
     }
 
 
@@ -45,16 +45,16 @@ class CategoriesAdapter(val clickListener: BranchClickListener) : RecyclerView.A
 
         fun bind(
             item: Category,
-            clickListener: BranchClickListener
+            clickListenerMain: MainCategoryClickListener
         ) {
             binding.cat= item
-            binding.clickListener = clickListener
+            binding.clickListener = clickListenerMain
 
         }
     }
 
 
 }
-class BranchClickListener(val clickListener: (catName: Category) -> Unit) {
+class MainCategoryClickListener(val clickListener: (catName: Category) -> Unit) {
     fun onClick(mainCat: Category) = clickListener(mainCat)
 }

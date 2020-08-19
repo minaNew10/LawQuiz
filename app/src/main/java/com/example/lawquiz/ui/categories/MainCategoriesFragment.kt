@@ -37,30 +37,36 @@ class MainCategoriesFragment : Fragment() {
         _binding = DataBindingUtil.inflate(inflater,
                     R.layout.main_categories_fragment,container,false)
         viewModel = ViewModelProvider(this).get(MainCategoriesViewModel::class.java)
-        val adapter = CategoriesAdapter(BranchClickListener { name ->
+        val adapter = CategoriesAdapter(MainCategoryClickListener { name ->
             viewModel.onMainCategoryClicked(name)
         })
         binding.mainCategoriesList.adapter = adapter
-        viewModel.categories.observe(viewLifecycleOwner, Observer {
-            adapter.data = it
-        })
-        viewModel.navigateToBranchedCategories.observe(viewLifecycleOwner, Observer {
-            categories ->
-                categories?.let {
-                    if(it.branches!!.size > 1) {
-                        val action =
-                            MainCategoriesFragmentDirections.actionMainCategoriesFragmentToBranchedCategories(it)
-                            NavHostFragment.findNavController(this).navigate(action)
-                        viewModel.onBranchedCategoriesNavigated()
-                    }else{
-                        Toast.makeText(activity,"no branches",Toast.LENGTH_SHORT).show()
-                    }
-                }
-        })
+        setupViewModel(adapter)
 
         setHasOptionsMenu(true)
 
         return binding.root
+    }
+
+    private fun setupViewModel(adapter: CategoriesAdapter) {
+        viewModel.categories.observe(viewLifecycleOwner, Observer {
+            adapter.data = it
+        })
+        viewModel.navigateToBranchedCategories.observe(viewLifecycleOwner, Observer { categories ->
+            categories?.let {
+                //to navigate to branches only if exists otherwise navigate to the test directly
+                if (it.branches!!.size > 1) {
+                    val action =
+                        MainCategoriesFragmentDirections.actionMainCategoriesFragmentToBranchedCategories(
+                            it
+                        )
+                    NavHostFragment.findNavController(this).navigate(action)
+                    viewModel.onBranchedCategoriesNavigated()
+                } else {
+                    Toast.makeText(activity, "no branches", Toast.LENGTH_SHORT).show()
+                }
+            }
+        })
     }
 
 

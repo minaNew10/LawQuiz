@@ -1,4 +1,4 @@
-package com.example.lawquiz.ui.branchedCategories;/*
+package com.example.lawquiz.ui.branchedcategories;/*
  * Copyright (C) 2019 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");

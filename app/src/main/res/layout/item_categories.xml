@@ -7,7 +7,7 @@
             type="com.example.lawquiz.model.Category" />
         <variable
             name="clickListener"
-            type="com.example.lawquiz.ui.categories.BranchClickListener" />
+            type="com.example.lawquiz.ui.categories.MainCategoryClickListener" />
     </data>
 
     <TextView

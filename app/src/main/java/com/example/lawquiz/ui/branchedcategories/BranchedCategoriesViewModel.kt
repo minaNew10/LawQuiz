@@ -1,4 +1,4 @@
-package com.example.lawquiz.ui.branchedCategories
+package com.example.lawquiz.ui.branchedcategories
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -9,7 +9,9 @@ import com.google.firebase.database.DatabaseReference
 private const val TAG = "BranchedCategoriesView"
 class BranchedCategoriesViewModel(category: Category) : ViewModel() {
 
-
+    private val _navigateToTest = MutableLiveData<Category>()
+        val navigateToTest: LiveData<Category>
+            get() = _navigateToTest
 
 
     private val _currCategory = MutableLiveData<Category>()
@@ -21,6 +23,9 @@ class BranchedCategoriesViewModel(category: Category) : ViewModel() {
         _currCategory.value = category
     }
     fun onBranchedCategoryClicked(category: Category) {
-
+        _navigateToTest.value = category
+    }
+    fun onTestNavigated(){
+        _navigateToTest.value = null
     }
 }

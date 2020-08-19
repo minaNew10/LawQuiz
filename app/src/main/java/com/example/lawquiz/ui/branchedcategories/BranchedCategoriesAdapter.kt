@@ -1,11 +1,10 @@
-package com.example.lawquiz.ui.branchedCategories;
+package com.example.lawquiz.ui.branchedcategories;
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.lawquiz.databinding.ItemBranchedCategoryBinding
-import com.example.lawquiz.databinding.ItemCategoriesBinding
 import com.example.lawquiz.model.Category
 
 class BranchedCategoriesAdapter(val clickListener: BranchedCategoriesClickListener) :

@@ -32,11 +32,22 @@
     </fragment>
     <fragment
         android:id="@+id/branchedCategories"
-        android:name="com.example.lawquiz.ui.branchedCategories.BranchedCategoriesFragment"
+        android:name="com.example.lawquiz.ui.branchedcategories.BranchedCategoriesFragment"
         android:label="BranchedCategories" >
         <argument
             android:name="main_categroy"
             app:argType="com.example.lawquiz.model.Category" />
+        <action
+            android:id="@+id/action_branchedCategories_to_questionFragmet"
+            app:destination="@id/questionFragmet" />
+    </fragment>
+    <fragment
+        android:id="@+id/questionFragmet"
+        android:name="com.example.lawquiz.ui.questions.QuestionFragmet"
+        android:label="QuestionFragmet" >
+        <argument
+            android:name="question_classification"
+            app:argType="string" />
     </fragment>
 
 </navigation>

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/question_body"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:textColor="@color/colorPrimary"
+                android:gravity="center"
+                android:textSize="22sp"></TextView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ProgressBar
+                    android:id="@+id/progress_bar_questions"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:minHeight="50dp"
+                    android:layout_margin="10dp"
+                    android:indeterminate="false"
+                    android:progress="0"></ProgressBar>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="15dp"
+                    android:textSize="14sp"
+                    android:textColorHint="@color/colorPrimary">
+
+
+                </TextView>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/txtv_option_one"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/default_option_border_bg"
+                android:gravity="center"
+                android:padding="15dp"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="18sp"></TextView>
+
+            <TextView
+                android:id="@+id/txtv_option_two"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/default_option_border_bg"
+                android:layout_margin="10dp"
+                android:gravity="center"
+                android:padding="15dp"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="18sp"></TextView>
+
+            <TextView
+                android:id="@+id/txtv_option_three"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/default_option_border_bg"
+                android:layout_margin="10dp"
+                android:gravity="center"
+                android:padding="15dp"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="18sp"></TextView>
+
+            <TextView
+                android:id="@+id/txtv_option_four"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/default_option_border_bg"
+                android:layout_margin="10dp"
+                android:gravity="center"
+                android:padding="15dp"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="18sp"></TextView>
+
+            <Button
+                android:id="@+id/btn_submit_ans"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:text="@string/submit_answer"
+                android:textSize="18sp"
+                android:textStyle="bold"></Button>
+
+        </LinearLayout>
+
+    </ScrollView>
+</layout>

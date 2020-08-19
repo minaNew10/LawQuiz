@@ -1,19 +1,20 @@
-package com.example.lawquiz.ui.branchedCategories
+package com.example.lawquiz.ui.branchedcategories
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.NavHostFragment
 import com.example.lawquiz.R
 import com.example.lawquiz.databinding.BranchedCategoriesFragmentBinding
 import com.example.lawquiz.model.Category
-import com.example.lawquiz.ui.categories.BranchClickListener
-import com.example.lawquiz.ui.categories.CategoriesAdapter
 import com.example.lawquiz.utils.setAlign
 
     private const val TAG = "BranchedCategories"
@@ -35,16 +36,33 @@ class BranchedCategoriesFragment : Fragment() {
             R.layout.branched_categories_fragment,container,false)
         viewModelFactory = BranchedCategoriesViewModelFactory(category)
         viewModel = ViewModelProvider(this,viewModelFactory).get(BranchedCategoriesViewModel::class.java)
-        val adapter = BranchedCategoriesAdapter(BranchedCategoriesClickListener { name ->
-            viewModel.onBranchedCategoryClicked(name)
+        val adapter = BranchedCategoriesAdapter(BranchedCategoriesClickListener { cat ->
+            viewModel.onBranchedCategoryClicked(cat)
         })
         binding.branchedCategoriesList.adapter = adapter
-        viewModel.currCategory.observe(viewLifecycleOwner, Observer {
-            adapter.data = it.branches!!
-        })
+        setupViewModel(adapter)
         return binding.root
     }
 
+    private fun setupViewModel(adapter: BranchedCategoriesAdapter) {
+        viewModel.currCategory.observe(viewLifecycleOwner, Observer {
+            adapter.data = it.branches!!
+        })
+
+        viewModel.navigateToTest.observe(viewLifecycleOwner, Observer {
+
+            it?.let {
+                var questionClass = it.parent.plus("_").plus(it.name.replace(" ", "_"))
+                val action =
+                    BranchedCategoriesFragmentDirections.actionBranchedCategoriesToQuestionFragmet(
+                        questionClass
+                    )
+                NavHostFragment.findNavController(this).navigate(action)
+                viewModel.onTestNavigated()
+    //                 Toast.makeText(activity,it.parent +"_"+ it.name.replace(" ","_"),Toast.LENGTH_LONG).show()
+            }
+        })
+    }
 
 
     override fun onResume() {

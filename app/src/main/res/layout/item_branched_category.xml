@@ -7,7 +7,7 @@
             type="com.example.lawquiz.model.Category" />
         <variable
             name="clickListener"
-            type="com.example.lawquiz.ui.branchedCategories.BranchedCategoriesClickListener" />
+            type="com.example.lawquiz.ui.branchedcategories.BranchedCategoriesClickListener" />
 
     </data>
 
