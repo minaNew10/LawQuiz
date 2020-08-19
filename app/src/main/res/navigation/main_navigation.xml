@@ -43,7 +43,7 @@
     </fragment>
     <fragment
         android:id="@+id/questionFragmet"
-        android:name="com.example.lawquiz.ui.questions.QuestionFragmet"
+        android:name="com.example.lawquiz.ui.questions.QuestionFragment"
         android:label="QuestionFragmet" >
         <argument
             android:name="question_classification"
