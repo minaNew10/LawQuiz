@@ -25,7 +25,7 @@ class MainCategoriesViewModel : ViewModel() {
             get() = _categories
 
     private var mAuth: FirebaseAuth? = null
-    private lateinit var database: DatabaseReference
+    private var database: DatabaseReference
     private val _loggedInUser = MutableLiveData<FirebaseUser>()
     val loggedInUser: LiveData<FirebaseUser>
         get() = _loggedInUser
