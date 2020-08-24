@@ -44,6 +44,7 @@ class QuestionFragment : Fragment() {
                     ques -> Log.i(TAG, "onCreateView: $ques")
 
                 }
+                binding.question = it.questions?.get(0)
             })
         })
 
