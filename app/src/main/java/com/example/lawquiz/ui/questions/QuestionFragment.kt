@@ -32,9 +32,12 @@ class QuestionFragment : Fragment() {
         questionClass = QuestionFragmentArgs.fromBundle(requireArguments()).questionClassification
         viewModelFactory = QuestionViewModelFactory(questionClass)
         viewModel= ViewModelProvider(this,viewModelFactory).get(QuestionFragmetViewModel::class.java)
+        _binding?.questionViewModel = viewModel
+        _binding?.lifecycleOwner = viewLifecycleOwner
         viewModel.currCategory.observe(viewLifecycleOwner, Observer {
              Toast.makeText(activity,it,Toast.LENGTH_LONG).show()
         })
+
         viewModel.questionLiveData.observe(viewLifecycleOwner, Observer {
 //            it.forEach{Ques ->
 //                Log.i(TAG, "onCreateView: $Ques")
@@ -44,7 +47,7 @@ class QuestionFragment : Fragment() {
                     ques -> Log.i(TAG, "onCreateView: $ques")
 
                 }
-                binding.question = it.questions?.get(0)
+//                binding.question = it.questions?.get(0)
             })
         })
 

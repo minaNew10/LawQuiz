@@ -3,8 +3,8 @@
 
     <data>
         <variable
-            name="question"
-            type="com.example.lawquiz.model.Question" />
+            name="questionViewModel"
+            type="com.example.lawquiz.ui.questions.QuestionFragmetViewModel" />
     </data>
 
     <ScrollView
@@ -25,7 +25,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:textColor="@color/colorPrimary"
-                android:text="@{question.questionBody}"
+                android:text="@{questionViewModel.currQuestion.questionBody}"
                 android:gravity="center"
                 android:textSize="22sp"></TextView>
 
@@ -45,7 +45,7 @@
                     android:minHeight="50dp"
                     android:layout_margin="10dp"
                     android:indeterminate="false"
-                    android:progress="0"></ProgressBar>
+                    android:progress="1"></ProgressBar>
 
                 <TextView
                     android:id="@+id/txtv_progress"
@@ -54,6 +54,7 @@
                     android:gravity="center"
                     android:padding="15dp"
                     android:textSize="14sp"
+                    android:text="@{@string/progress_text_format(questionViewModel.currPosition)}"
                     android:textColorHint="@color/colorPrimary">
 
 
@@ -64,7 +65,7 @@
                 android:id="@+id/txtv_option_one"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{question.choices.get(1)}"
+                android:text="@{questionViewModel.currQuestion.choices.get(1)}"
                 android:layout_margin="10dp"
                 android:background="@drawable/default_option_border_bg"
                 android:gravity="center"
@@ -76,7 +77,7 @@
                 android:id="@+id/txtv_option_two"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{question.choices.get(2)}"
+                android:text="@{questionViewModel.currQuestion.choices.get(2)}"
                 android:background="@drawable/default_option_border_bg"
                 android:layout_margin="10dp"
                 android:gravity="center"
@@ -88,7 +89,7 @@
                 android:id="@+id/txtv_option_three"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{question.choices.get(3)}"
+                android:text="@{questionViewModel.currQuestion.choices.get(3)}"
                 android:background="@drawable/default_option_border_bg"
                 android:layout_margin="10dp"
                 android:gravity="center"
@@ -100,7 +101,7 @@
                 android:id="@+id/txtv_option_four"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{question.choices.get(4)}"
+                android:text="@{questionViewModel.currQuestion.choices.get(4)}"
                 android:background="@drawable/default_option_border_bg"
                 android:layout_margin="10dp"
                 android:gravity="center"

@@ -1,6 +1,5 @@
 package com.example.lawquiz.ui.questions
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -15,6 +14,12 @@ import com.google.firebase.ktx.Firebase
 
 private const val TAG = "QuestionViewModel"
 class QuestionFragmetViewModel(questionClass: String) : ViewModel() {
+    private val _currPosition = MutableLiveData<Int?>()
+        val currPosition: LiveData<Int?>
+            get() = _currPosition
+    private val _currQuestion = MutableLiveData<Question>()
+        val currQuestion: LiveData<Question>
+            get() = _currQuestion
     private val _questionsLiveData = MutableLiveData<ArrayList<Question?>>()
         val questionLiveData: LiveData<ArrayList<Question?>>
             get() = _questionsLiveData
@@ -40,16 +45,38 @@ class QuestionFragmetViewModel(questionClass: String) : ViewModel() {
                     questions.add(question)
                 }
                 _questionsLiveData.value = questions
+                _currPosition.value = 1
+               _currQuestion.value =  _currPosition.value?.let {
+                    _questionsLiveData.value?.get(it)
+                }
             }
 
         }
         database.child("questions/$questionClass/moderate").addValueEventListener(questionsListener)
     }
 
-    public fun createTest(questions : ArrayList<Question?>) : LiveData<Test>{
+    fun createTest(questions : ArrayList<Question?>) : LiveData<Test>{
         var testLiveData = MutableLiveData<Test>()
         var test = Test("1",10,"moderate",currCategory.value,questions,0);
         testLiveData.value = test
         return testLiveData
+    }
+    fun getCurrQuestionLiveData() : LiveData<Question>{
+        val pos  : Int? = _currPosition.value
+        _currQuestion.value = pos?.let { _questionsLiveData.value?.get(it) }
+        return currQuestion
+
+    }
+    fun nextQuestion(){
+        _currPosition.value = (currPosition.value)?.plus(1)
+        _currQuestion.value = currPosition.value?.let{
+            _questionsLiveData.value?.get(it)
+        }
+    }
+    fun prevQuestion(){
+        _currPosition.value = (currPosition.value)?.minus(1)
+        _currQuestion.value = currPosition.value?.let{
+            _questionsLiveData.value?.get(it)
+        }
     }
 }

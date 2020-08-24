@@ -21,4 +21,5 @@
     <string name="network_error">تأكد من اتصالك بالإنترنت</string>
     <string name="branched_categories_title">التصنيفات  الفرعية</string>
     <string name="submit_answer">سجل الإجابة</string>
+    <string name="progress_text_format">%d : 10</string>
 </resources>
