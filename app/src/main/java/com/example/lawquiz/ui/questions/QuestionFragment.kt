@@ -39,15 +39,12 @@ class QuestionFragment : Fragment() {
         })
 
         viewModel.questionLiveData.observe(viewLifecycleOwner, Observer {
-//            it.forEach{Ques ->
-//                Log.i(TAG, "onCreateView: $Ques")
-//            }
             viewModel.createTest(it).observe(viewLifecycleOwner, Observer {
                 it.questions?.forEach{
                     ques -> Log.i(TAG, "onCreateView: $ques")
 
                 }
-//                binding.question = it.questions?.get(0)
+
             })
         })
 

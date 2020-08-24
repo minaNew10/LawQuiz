@@ -42,10 +42,11 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:max="@{questionViewModel.numOfQuestions - 1}"
                     android:minHeight="50dp"
                     android:layout_margin="10dp"
                     android:indeterminate="false"
-                    android:progress="1"></ProgressBar>
+                    android:progress="@{questionViewModel.currPosition}"></ProgressBar>
 
                 <TextView
                     android:id="@+id/txtv_progress"
@@ -54,7 +55,7 @@
                     android:gravity="center"
                     android:padding="15dp"
                     android:textSize="14sp"
-                    android:text="@{@string/progress_text_format(questionViewModel.currPosition)}"
+                    android:text="@{@string/progress_text_format(questionViewModel.currPosition+1,questionViewModel.numOfQuestions)}"
                     android:textColorHint="@color/colorPrimary">
 
 
@@ -115,6 +116,7 @@
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
                 android:text="@string/submit_answer"
+                android:onClick="@{() -> questionViewModel.nextQuestion()}"
                 android:textSize="18sp"
                 android:textStyle="bold"></Button>
 

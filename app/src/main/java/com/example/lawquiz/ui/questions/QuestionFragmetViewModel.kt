@@ -14,8 +14,11 @@ import com.google.firebase.ktx.Firebase
 
 private const val TAG = "QuestionViewModel"
 class QuestionFragmetViewModel(questionClass: String) : ViewModel() {
-    private val _currPosition = MutableLiveData<Int?>()
-        val currPosition: LiveData<Int?>
+    private val _numOfQuestions = MutableLiveData<Int>()
+        val numOfQuestions: LiveData<Int>
+            get() = _numOfQuestions
+    private val _currPosition = MutableLiveData<Int>()
+        val currPosition: LiveData<Int>
             get() = _currPosition
     private val _currQuestion = MutableLiveData<Question>()
         val currQuestion: LiveData<Question>
@@ -37,15 +40,17 @@ class QuestionFragmetViewModel(questionClass: String) : ViewModel() {
             }
 
             override fun onDataChange(snapshot: DataSnapshot) {
+                var numOfChildrens = snapshot.children.count()
+                var list = snapshot.children?.take(if (numOfChildrens >= 10) 10 else numOfChildrens )
 
-                var list = snapshot.children.take(10)
+                _numOfQuestions.value = list.size
                 list.forEach{
                     var  question : Question? =  it.getValue(Question::class.java)
                     question?.id = it.key
                     questions.add(question)
                 }
                 _questionsLiveData.value = questions
-                _currPosition.value = 1
+                _currPosition.value = 0
                _currQuestion.value =  _currPosition.value?.let {
                     _questionsLiveData.value?.get(it)
                 }
@@ -68,9 +73,13 @@ class QuestionFragmetViewModel(questionClass: String) : ViewModel() {
 
     }
     fun nextQuestion(){
-        _currPosition.value = (currPosition.value)?.plus(1)
-        _currQuestion.value = currPosition.value?.let{
-            _questionsLiveData.value?.get(it)
+        val pos = _currPosition.value
+        val nums = _numOfQuestions.value
+        if(pos!!.compareTo(nums!! - 1) < 0) {
+            _currPosition.value = (currPosition.value)?.plus(1)
+            _currQuestion.value = currPosition.value?.let {
+                _questionsLiveData.value?.get(it)
+            }
         }
     }
     fun prevQuestion(){
