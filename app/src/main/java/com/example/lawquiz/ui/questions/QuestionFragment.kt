@@ -1,6 +1,7 @@
 package com.example.lawquiz.ui.questions
 
 
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -47,7 +48,30 @@ class QuestionFragment : Fragment() {
 
             })
         })
-
+        binding.txtvOptionOne.setOnClickListener {
+            it.setBackgroundResource(R.drawable.selected_option_border_bg)
+            binding.txtvOptionFour.setBackgroundResource(R.drawable.default_option_border_bg)
+            binding.txtvOptionTwo.setBackgroundResource(R.drawable.default_option_border_bg)
+            binding.txtvOptionThree.setBackgroundResource(R.drawable.default_option_border_bg)
+        }
+        binding.txtvOptionTwo.setOnClickListener {
+            it.setBackgroundResource(R.drawable.selected_option_border_bg)
+            binding.txtvOptionFour.setBackgroundResource(R.drawable.default_option_border_bg)
+            binding.txtvOptionOne.setBackgroundResource(R.drawable.default_option_border_bg)
+            binding.txtvOptionThree.setBackgroundResource(R.drawable.default_option_border_bg)
+        }
+        binding.txtvOptionThree.setOnClickListener{
+            it.setBackgroundResource(R.drawable.selected_option_border_bg)
+            binding.txtvOptionFour.setBackgroundResource(R.drawable.default_option_border_bg)
+            binding.txtvOptionTwo.setBackgroundResource(R.drawable.default_option_border_bg)
+            binding.txtvOptionOne.setBackgroundResource(R.drawable.default_option_border_bg)
+        }
+        binding.txtvOptionFour.setOnClickListener{
+            it.setBackgroundResource(R.drawable.selected_option_border_bg)
+            binding.txtvOptionOne.setBackgroundResource(R.drawable.default_option_border_bg)
+            binding.txtvOptionTwo.setBackgroundResource(R.drawable.default_option_border_bg)
+            binding.txtvOptionThree.setBackgroundResource(R.drawable.default_option_border_bg)
+        }
         return binding.root
     }
 
