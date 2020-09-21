@@ -22,4 +22,5 @@
     <string name="branched_categories_title">التصنيفات  الفرعية</string>
     <string name="submit_answer">سجل الإجابة</string>
     <string name="progress_text_format">%1d : %2d</string>
+    <string name="next_Question">السؤال التالي</string>
 </resources>

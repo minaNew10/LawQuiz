@@ -122,7 +122,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
-                android:text="@string/submit_answer"
+                android:text="@{context.getString(questionViewModel.btnSubmitText)}"
                 android:onClick="@{() -> questionViewModel.submitAnswer()}"
                 android:textSize="18sp"
                 android:textStyle="bold"></Button>

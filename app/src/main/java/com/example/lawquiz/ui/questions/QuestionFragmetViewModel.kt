@@ -54,6 +54,11 @@ class QuestionFragmetViewModel(questionClass: String) : ViewModel() {
     private val _forthChoiceBg = MutableLiveData<Int>()
         val forthChoiceBg: LiveData<Int>
             get() = _forthChoiceBg
+
+    private val _btnSubmitText = MutableLiveData<Int>()
+        val btnSubmitText: LiveData<Int>
+            get() = _btnSubmitText
+
   //this is the chosen answer from the view
    private val _chosenAnswer = MutableLiveData<Int?>()
        val chosenAnswer: LiveData<Int?>
@@ -69,7 +74,7 @@ class QuestionFragmetViewModel(questionClass: String) : ViewModel() {
         val questionsListener = object :ValueEventListener{
             override fun onCancelled(error: DatabaseError) {
 
-    }
+             }
 
             override fun onDataChange(snapshot: DataSnapshot) {
                 var numOfChildrens = snapshot.children.count()
@@ -90,13 +95,15 @@ class QuestionFragmetViewModel(questionClass: String) : ViewModel() {
 
         }
         database.child("questions/$questionClass/moderate").addValueEventListener(questionsListener)
-        useDefaultBgForChoices()
+        _btnSubmitText.value = R.string.submit_answer
+        useDefaultBgAndTexts()
     }
-    fun useDefaultBgForChoices(){
+    fun useDefaultBgAndTexts(){
         _firstChoiceBg.value = R.drawable.default_option_border_bg
         _secChoiceBg.value = R.drawable.default_option_border_bg
         _thirdChoiceBg.value = R.drawable.default_option_border_bg
         _forthChoiceBg.value = R.drawable.default_option_border_bg
+//       _btnSubmitText.value = R.string.submit_answer
     }
     fun createTest(questions : ArrayList<Question?>) : LiveData<Test>{
         var testLiveData = MutableLiveData<Test>()
@@ -120,7 +127,8 @@ class QuestionFragmetViewModel(questionClass: String) : ViewModel() {
 
         }
         //regain the default background for photos
-        useDefaultBgForChoices()
+        useDefaultBgAndTexts()
+        _btnSubmitText.value = R.string.submit_answer
     }
     fun prevQuestion(){
         _currPosition.value = (currPosition.value)?.minus(1)
@@ -144,8 +152,10 @@ class QuestionFragmetViewModel(questionClass: String) : ViewModel() {
             }else{
                 Log.i(TAG, "submitAnswer: answer is correct")
             }
+            _btnSubmitText.value = R.string.next_Question
         }else{
             nextQuestion()
+
         }
 
     }
