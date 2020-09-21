@@ -1,11 +1,13 @@
 package com.example.lawquiz.ui.questions
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.lawquiz.R
 import com.example.lawquiz.model.Question
 import com.example.lawquiz.model.Test
+import com.example.lawquiz.utils.mutation
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -52,24 +54,22 @@ class QuestionFragmetViewModel(questionClass: String) : ViewModel() {
     private val _forthChoiceBg = MutableLiveData<Int>()
         val forthChoiceBg: LiveData<Int>
             get() = _forthChoiceBg
+  //this is the chosen answer from the view
+   private val _chosenAnswer = MutableLiveData<Int?>()
+       val chosenAnswer: LiveData<Int?>
+           get() = _chosenAnswer
 
-    //no of currChoice
-    private val _currChoice = MutableLiveData<Int>()
-        val currChoice: LiveData<Int>
-            get() = _currChoice
 
-    private val _isAnswered = MutableLiveData<Boolean>()
-        val isAnswered: LiveData<Boolean>
-            get() = _isAnswered
     init {
-
+        //if the question is answered before, chosenAnswered will be assigned the chosen answer number otherwise it will be -1
+        _chosenAnswer.value = _currQuestion.value?.chosenAnswer
         _currCategory.value = questionClass
         database = Firebase.database.reference
         var questions = ArrayList<Question?>()
         val questionsListener = object :ValueEventListener{
             override fun onCancelled(error: DatabaseError) {
 
-            }
+    }
 
             override fun onDataChange(snapshot: DataSnapshot) {
                 var numOfChildrens = snapshot.children.count()
@@ -123,29 +123,64 @@ class QuestionFragmetViewModel(questionClass: String) : ViewModel() {
             _questionsLiveData.value?.get(it)
         }
     }
+
+    fun submitAnswer(){
+        //only if chosen answer = -1 which means the question is not answered before
+        if(_currQuestion?.value?.chosenAnswer == -1) {
+
+            var lastChosenAns = _chosenAnswer.value
+
+            _currQuestion.mutation {
+                it.value!!.chosenAnswer = lastChosenAns!!
+            }
+            var correctAns = _currQuestion.value?.correctAnswer?.toInt()
+            if (lastChosenAns != correctAns) {
+                Log.i(TAG, "submitAnswer: correctAns is " + _currQuestion.value!!.correctAnswer)
+            }else{
+                Log.i(TAG, "submitAnswer: answer is correct")
+            }
+        }
+
+    }
     fun onFirstChoiceClicked(){
-        _firstChoiceBg.value = R.drawable.selected_option_border_bg
-        _secChoiceBg.value = R.drawable.default_option_border_bg
-        _thirdChoiceBg.value = R.drawable.default_option_border_bg
-        _forthChoiceBg.value = R.drawable.default_option_border_bg
+        //only if the question is not answered before change the chosen answer
+        if(_currQuestion?.value?.chosenAnswer == -1) {
+            _chosenAnswer.value = 1
+            _firstChoiceBg.value = R.drawable.selected_option_border_bg
+            _secChoiceBg.value = R.drawable.default_option_border_bg
+            _thirdChoiceBg.value = R.drawable.default_option_border_bg
+            _forthChoiceBg.value = R.drawable.default_option_border_bg
+        }
     }
     fun onSecondChoiceClicked(){
-        _secChoiceBg.value = R.drawable.selected_option_border_bg
-        _firstChoiceBg.value = R.drawable.default_option_border_bg
-        _thirdChoiceBg.value = R.drawable.default_option_border_bg
-        _forthChoiceBg.value = R.drawable.default_option_border_bg
+        //only if the question is not answered before change the chosen answer
+        if(_currQuestion?.value?.chosenAnswer == -1) {
+            _chosenAnswer.value = 2
+            _secChoiceBg.value = R.drawable.selected_option_border_bg
+            _firstChoiceBg.value = R.drawable.default_option_border_bg
+            _thirdChoiceBg.value = R.drawable.default_option_border_bg
+            _forthChoiceBg.value = R.drawable.default_option_border_bg
+        }
     }
     fun onThirdChoiceClicked(){
-        _thirdChoiceBg.value = R.drawable.selected_option_border_bg
-        _firstChoiceBg.value = R.drawable.default_option_border_bg
-        _secChoiceBg.value = R.drawable.default_option_border_bg
-        _forthChoiceBg.value = R.drawable.default_option_border_bg
+        //only if the question is not answered before change the chosen answer
+        if(_currQuestion?.value?.chosenAnswer == -1) {
+            _chosenAnswer.value = 3
+            _thirdChoiceBg.value = R.drawable.selected_option_border_bg
+            _firstChoiceBg.value = R.drawable.default_option_border_bg
+            _secChoiceBg.value = R.drawable.default_option_border_bg
+            _forthChoiceBg.value = R.drawable.default_option_border_bg
+        }
     }
     fun onForthChoiceClicked(){
-        _forthChoiceBg.value = R.drawable.selected_option_border_bg
-        _firstChoiceBg.value = R.drawable.default_option_border_bg
-        _secChoiceBg.value = R.drawable.default_option_border_bg
-        _thirdChoiceBg.value = R.drawable.default_option_border_bg
+        //only if the question is not answered before change the chosen answer
+        if(_currQuestion?.value?.chosenAnswer == -1) {
+            _chosenAnswer.value = 4
+            _forthChoiceBg.value = R.drawable.selected_option_border_bg
+            _firstChoiceBg.value = R.drawable.default_option_border_bg
+            _secChoiceBg.value = R.drawable.default_option_border_bg
+            _thirdChoiceBg.value = R.drawable.default_option_border_bg
+        }
     }
 
 

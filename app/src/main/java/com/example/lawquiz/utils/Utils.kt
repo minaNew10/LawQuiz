@@ -8,6 +8,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.ActionBar
 import androidx.core.app.ActivityCompat
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.example.lawquiz.R
 
@@ -26,6 +27,10 @@ fun ActionBar.setAlign(activity: Activity,title: String){
     customView = textView
 }
 
+fun <T> MutableLiveData<T>.mutation(actions: (MutableLiveData<T>) -> Unit) {
+    actions(this)
+    this.value = this.value
+}
 /**
  * ViewHolder that holds a single [TextView].
  *

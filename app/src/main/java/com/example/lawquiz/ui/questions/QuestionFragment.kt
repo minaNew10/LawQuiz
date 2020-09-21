@@ -35,46 +35,26 @@ class QuestionFragment : Fragment() {
         viewModel= ViewModelProvider(this,viewModelFactory).get(QuestionFragmetViewModel::class.java)
         _binding?.questionViewModel = viewModel
         _binding?.lifecycleOwner = viewLifecycleOwner
-        viewModel.currCategory.observe(viewLifecycleOwner, Observer {
-             Toast.makeText(activity,it,Toast.LENGTH_LONG).show()
-        })
+        viewModel.currQuestion.observe(viewLifecycleOwner, Observer {
+            //in case of correct answer
+            if (it.chosenAnswer != -1 && it.chosenAnswer == it.correctAnswer.toInt()) {
+                Log.i(TAG, "onCreateView: answer is correct")
+                higlightCorrectAnswer(it.chosenAnswer)
+            }
+        }
+        )
 
-        viewModel.questionLiveData.observe(viewLifecycleOwner, Observer {
-            viewModel.createTest(it).observe(viewLifecycleOwner, Observer {
-                it.questions?.forEach{
-                    ques -> Log.i(TAG, "onCreateView: $ques")
-
-                }
-
-            })
-        })
-        binding.txtvOptionOne.setOnClickListener {
-            it.setBackgroundResource(R.drawable.selected_option_border_bg)
-            binding.txtvOptionFour.setBackgroundResource(R.drawable.default_option_border_bg)
-            binding.txtvOptionTwo.setBackgroundResource(R.drawable.default_option_border_bg)
-            binding.txtvOptionThree.setBackgroundResource(R.drawable.default_option_border_bg)
-        }
-        binding.txtvOptionTwo.setOnClickListener {
-            it.setBackgroundResource(R.drawable.selected_option_border_bg)
-            binding.txtvOptionFour.setBackgroundResource(R.drawable.default_option_border_bg)
-            binding.txtvOptionOne.setBackgroundResource(R.drawable.default_option_border_bg)
-            binding.txtvOptionThree.setBackgroundResource(R.drawable.default_option_border_bg)
-        }
-        binding.txtvOptionThree.setOnClickListener{
-            it.setBackgroundResource(R.drawable.selected_option_border_bg)
-            binding.txtvOptionFour.setBackgroundResource(R.drawable.default_option_border_bg)
-            binding.txtvOptionTwo.setBackgroundResource(R.drawable.default_option_border_bg)
-            binding.txtvOptionOne.setBackgroundResource(R.drawable.default_option_border_bg)
-        }
-        binding.txtvOptionFour.setOnClickListener{
-            it.setBackgroundResource(R.drawable.selected_option_border_bg)
-            binding.txtvOptionOne.setBackgroundResource(R.drawable.default_option_border_bg)
-            binding.txtvOptionTwo.setBackgroundResource(R.drawable.default_option_border_bg)
-            binding.txtvOptionThree.setBackgroundResource(R.drawable.default_option_border_bg)
-        }
         return binding.root
     }
 
+    fun higlightCorrectAnswer(ans: Int){
+        when(ans){
+            1 -> binding.txtvOptionOne.background = activity?.getDrawable(R.drawable.correct_option_border_bg)
+            2 -> binding.txtvOptionTwo.background = activity?.getDrawable(R.drawable.correct_option_border_bg)
+            3 -> binding.txtvOptionThree.background = activity?.getDrawable(R.drawable.correct_option_border_bg)
+            4 -> binding.txtvOptionFour.background = activity?.getDrawable(R.drawable.correct_option_border_bg)
+        }
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
