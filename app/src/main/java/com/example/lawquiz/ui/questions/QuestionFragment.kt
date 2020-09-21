@@ -37,9 +37,12 @@ class QuestionFragment : Fragment() {
         _binding?.lifecycleOwner = viewLifecycleOwner
         viewModel.currQuestion.observe(viewLifecycleOwner, Observer {
             //in case of correct answer
-            if (it.chosenAnswer != -1 && it.chosenAnswer == it.correctAnswer.toInt()) {
-                Log.i(TAG, "onCreateView: answer is correct")
-                higlightCorrectAnswer(it.chosenAnswer)
+            if (it.chosenAnswer != -1 ) {
+
+                higlightCorrectAnswer(it.correctAnswer.toInt())
+                if(it.chosenAnswer != it.correctAnswer.toInt()){
+                    higlightWrongAnswer(it.chosenAnswer)
+                }
             }
         }
         )
@@ -55,7 +58,14 @@ class QuestionFragment : Fragment() {
             4 -> binding.txtvOptionFour.background = activity?.getDrawable(R.drawable.correct_option_border_bg)
         }
     }
-
+    fun higlightWrongAnswer(ans: Int){
+        when(ans){
+            1 -> binding.txtvOptionOne.background = activity?.getDrawable(R.drawable.wrong_option_border_bg)
+            2 -> binding.txtvOptionTwo.background = activity?.getDrawable(R.drawable.wrong_option_border_bg)
+            3 -> binding.txtvOptionThree.background = activity?.getDrawable(R.drawable.wrong_option_border_bg)
+            4 -> binding.txtvOptionFour.background = activity?.getDrawable(R.drawable.wrong_option_border_bg)
+        }
+    }
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
