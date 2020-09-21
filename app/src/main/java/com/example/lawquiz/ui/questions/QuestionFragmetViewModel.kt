@@ -90,12 +90,14 @@ class QuestionFragmetViewModel(questionClass: String) : ViewModel() {
 
         }
         database.child("questions/$questionClass/moderate").addValueEventListener(questionsListener)
+        useDefaultBgForChoices()
+    }
+    fun useDefaultBgForChoices(){
         _firstChoiceBg.value = R.drawable.default_option_border_bg
         _secChoiceBg.value = R.drawable.default_option_border_bg
         _thirdChoiceBg.value = R.drawable.default_option_border_bg
         _forthChoiceBg.value = R.drawable.default_option_border_bg
     }
-
     fun createTest(questions : ArrayList<Question?>) : LiveData<Test>{
         var testLiveData = MutableLiveData<Test>()
         var test = Test("1",10,"moderate",currCategory.value,questions,0);
@@ -115,7 +117,10 @@ class QuestionFragmetViewModel(questionClass: String) : ViewModel() {
             _currQuestion.value = currPosition.value?.let {
                 _questionsLiveData.value?.get(it)
             }
+
         }
+        //regain the default background for photos
+        useDefaultBgForChoices()
     }
     fun prevQuestion(){
         _currPosition.value = (currPosition.value)?.minus(1)
@@ -139,6 +144,8 @@ class QuestionFragmetViewModel(questionClass: String) : ViewModel() {
             }else{
                 Log.i(TAG, "submitAnswer: answer is correct")
             }
+        }else{
+            nextQuestion()
         }
 
     }
