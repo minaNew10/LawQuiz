@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import at.blogc.android.views.ExpandableTextView
 import com.example.lawquiz.R
 import com.example.lawquiz.model.Question
 import com.example.lawquiz.model.Test
@@ -103,6 +104,7 @@ class QuestionFragmetViewModel(questionClass: String) : ViewModel() {
         _secChoiceBg.value = R.drawable.default_option_border_bg
         _thirdChoiceBg.value = R.drawable.default_option_border_bg
         _forthChoiceBg.value = R.drawable.default_option_border_bg
+
 //       _btnSubmitText.value = R.string.submit_answer
     }
     fun createTest(questions : ArrayList<Question?>) : LiveData<Test>{
@@ -199,6 +201,8 @@ class QuestionFragmetViewModel(questionClass: String) : ViewModel() {
             _thirdChoiceBg.value = R.drawable.default_option_border_bg
         }
     }
+
+
 
 
 

@@ -33,17 +33,24 @@ class QuestionFragment : Fragment() {
         questionClass = QuestionFragmentArgs.fromBundle(requireArguments()).questionClassification
         viewModelFactory = QuestionViewModelFactory(questionClass)
         viewModel= ViewModelProvider(this,viewModelFactory).get(QuestionFragmetViewModel::class.java)
-        _binding?.questionViewModel = viewModel
-        _binding?.lifecycleOwner = viewLifecycleOwner
+        binding.questionViewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.expandableTextView.setOnClickListener{
+            binding.expandableTextView.toggle()
+        }
         viewModel.currQuestion.observe(viewLifecycleOwner, Observer {
-            //in case of correct answer
+            // in case the question is answered
             if (it.chosenAnswer != -1 ) {
-
+                binding.expandableTextView.visibility = View.VISIBLE
                 higlightCorrectAnswer(it.correctAnswer.toInt())
+                //in case of correct answer
                 if(it.chosenAnswer != it.correctAnswer.toInt()){
                     higlightWrongAnswer(it.chosenAnswer)
                 }
+            }else{
+                binding.expandableTextView.visibility = View.GONE
             }
+
         }
         )
 

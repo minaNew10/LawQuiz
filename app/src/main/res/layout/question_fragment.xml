@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="questionViewModel"
             type="com.example.lawquiz.ui.questions.QuestionFragmetViewModel" />
@@ -15,18 +17,18 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="16dp">
 
             <TextView
                 android:id="@+id/question_body"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:textColor="@color/colorPrimary"
-                android:text="@{questionViewModel.currQuestion.questionBody}"
                 android:gravity="center"
+                android:text="@{questionViewModel.currQuestion.questionBody}"
+                android:textColor="@color/colorPrimary"
                 android:textSize="22sp"></TextView>
 
             <LinearLayout
@@ -41,11 +43,11 @@
                     style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
                     android:layout_weight="1"
+                    android:indeterminate="false"
                     android:max="@{questionViewModel.numOfQuestions - 1}"
                     android:minHeight="50dp"
-                    android:layout_margin="10dp"
-                    android:indeterminate="false"
                     android:progress="@{questionViewModel.currPosition}"></ProgressBar>
 
                 <TextView
@@ -54,9 +56,9 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:padding="15dp"
-                    android:textSize="14sp"
                     android:text="@{@string/progress_text_format(questionViewModel.currPosition+1,questionViewModel.numOfQuestions)}"
-                    android:textColorHint="@color/colorPrimary">
+                    android:textColorHint="@color/colorPrimary"
+                    android:textSize="14sp">
 
 
                 </TextView>
@@ -66,13 +68,13 @@
                 android:id="@+id/txtv_option_one"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{questionViewModel.currQuestion.choices.get(1)}"
-                android:onClick="@{() -> questionViewModel.onFirstChoiceClicked()}"
-
                 android:layout_margin="10dp"
                 android:background="@{context.getDrawable(questionViewModel.firstChoiceBg)}"
+
                 android:gravity="center"
+                android:onClick="@{() -> questionViewModel.onFirstChoiceClicked()}"
                 android:padding="15dp"
+                android:text="@{questionViewModel.currQuestion.choices.get(1)}"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="18sp"></TextView>
 
@@ -80,13 +82,13 @@
                 android:id="@+id/txtv_option_two"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{questionViewModel.currQuestion.choices.get(2)}"
-
-                android:onClick="@{() -> questionViewModel.onSecondChoiceClicked()}"
-                android:background="@{context.getDrawable(questionViewModel.secChoiceBg)}"
                 android:layout_margin="10dp"
+
+                android:background="@{context.getDrawable(questionViewModel.secChoiceBg)}"
                 android:gravity="center"
+                android:onClick="@{() -> questionViewModel.onSecondChoiceClicked()}"
                 android:padding="15dp"
+                android:text="@{questionViewModel.currQuestion.choices.get(2)}"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="18sp"></TextView>
 
@@ -94,12 +96,12 @@
                 android:id="@+id/txtv_option_three"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:onClick="@{() -> questionViewModel.onThirdChoiceClicked()}"
-                android:text="@{questionViewModel.currQuestion.choices.get(3)}"
-                android:background="@{context.getDrawable(questionViewModel.thirdChoiceBg)}"
                 android:layout_margin="10dp"
+                android:background="@{context.getDrawable(questionViewModel.thirdChoiceBg)}"
                 android:gravity="center"
+                android:onClick="@{() -> questionViewModel.onThirdChoiceClicked()}"
                 android:padding="15dp"
+                android:text="@{questionViewModel.currQuestion.choices.get(3)}"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="18sp"></TextView>
 
@@ -108,22 +110,32 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 
-                android:text="@{questionViewModel.currQuestion.choices.get(4)}"
-                android:onClick="@{() -> questionViewModel.onForthChoiceClicked()}"
-                android:background="@{context.getDrawable(questionViewModel.forthChoiceBg)}"
                 android:layout_margin="10dp"
+                android:background="@{context.getDrawable(questionViewModel.forthChoiceBg)}"
                 android:gravity="center"
+                android:onClick="@{() -> questionViewModel.onForthChoiceClicked()}"
                 android:padding="15dp"
+                android:text="@{questionViewModel.currQuestion.choices.get(4)}"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="18sp"></TextView>
+
+            <at.blogc.android.views.ExpandableTextView
+                android:id="@+id/expandableTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:padding="15dp"
+                android:text="@{questionViewModel.currQuestion.ansRef.toString()}"
+                app:animation_duration="300" />
 
             <Button
                 android:id="@+id/btn_submit_ans"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
-                android:text="@{context.getString(questionViewModel.btnSubmitText)}"
                 android:onClick="@{() -> questionViewModel.submitAnswer()}"
+                android:text="@{context.getString(questionViewModel.btnSubmitText)}"
                 android:textSize="18sp"
                 android:textStyle="bold"></Button>
 
