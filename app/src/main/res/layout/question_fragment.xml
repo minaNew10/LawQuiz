@@ -136,6 +136,7 @@
                 android:layout_margin="10dp"
                 android:onClick="@{() -> questionViewModel.submitAnswer()}"
                 android:text="@{context.getString(questionViewModel.btnSubmitText)}"
+                android:enabled="@{questionViewModel.btnSubmitEnabled}"
                 android:textSize="18sp"
                 android:textStyle="bold"></Button>
 

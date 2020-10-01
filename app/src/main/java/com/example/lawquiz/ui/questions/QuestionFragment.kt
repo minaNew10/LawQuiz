@@ -48,7 +48,12 @@ class QuestionFragment : Fragment() {
                     higlightWrongAnswer(it.chosenAnswer)
                 }
             }else{
-                binding.expandableTextView.visibility = View.GONE
+                binding.apply {
+                    //collapse the text view in case of expanding it before
+                    expandableTextView.collapse()
+                    expandableTextView.visibility = View.GONE
+                }
+
             }
 
         }

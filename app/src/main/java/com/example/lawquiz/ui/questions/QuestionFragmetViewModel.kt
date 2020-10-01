@@ -59,7 +59,9 @@ class QuestionFragmetViewModel(questionClass: String) : ViewModel() {
     private val _btnSubmitText = MutableLiveData<Int>()
         val btnSubmitText: LiveData<Int>
             get() = _btnSubmitText
-
+    private val _btnSubmitEnabled = MutableLiveData<Boolean>()
+        val btnSubmitEnabled: LiveData<Boolean>
+            get() = _btnSubmitEnabled
   //this is the chosen answer from the view
    private val _chosenAnswer = MutableLiveData<Int?>()
        val chosenAnswer: LiveData<Int?>
@@ -79,7 +81,15 @@ class QuestionFragmetViewModel(questionClass: String) : ViewModel() {
 
             override fun onDataChange(snapshot: DataSnapshot) {
                 var numOfChildrens = snapshot.children.count()
-                var list = snapshot.children?.take(if (numOfChildrens >= 10) 10 else numOfChildrens )
+
+                //in order to generate random questions
+//                var list1 = numOfChildrens.let {
+//                    when{
+//                        it > 10 -> snapshot.children.chunked(10).get(0)
+//                        else -> snapshot.children.take(it)
+//                    }
+//                }
+                var list = snapshot.children?.take(if (numOfChildrens >= 10) 10 else numOfChildrens ).shuffled()
 
                 _numOfQuestions.value = list.size
                 list.forEach{
@@ -104,8 +114,7 @@ class QuestionFragmetViewModel(questionClass: String) : ViewModel() {
         _secChoiceBg.value = R.drawable.default_option_border_bg
         _thirdChoiceBg.value = R.drawable.default_option_border_bg
         _forthChoiceBg.value = R.drawable.default_option_border_bg
-
-//       _btnSubmitText.value = R.string.submit_answer
+        _btnSubmitEnabled.value = false
     }
     fun createTest(questions : ArrayList<Question?>) : LiveData<Test>{
         var testLiveData = MutableLiveData<Test>()
@@ -169,6 +178,7 @@ class QuestionFragmetViewModel(questionClass: String) : ViewModel() {
             _secChoiceBg.value = R.drawable.default_option_border_bg
             _thirdChoiceBg.value = R.drawable.default_option_border_bg
             _forthChoiceBg.value = R.drawable.default_option_border_bg
+            _btnSubmitEnabled.value = true
         }
     }
     fun onSecondChoiceClicked(){
@@ -179,6 +189,7 @@ class QuestionFragmetViewModel(questionClass: String) : ViewModel() {
             _firstChoiceBg.value = R.drawable.default_option_border_bg
             _thirdChoiceBg.value = R.drawable.default_option_border_bg
             _forthChoiceBg.value = R.drawable.default_option_border_bg
+            _btnSubmitEnabled.value = true
         }
     }
     fun onThirdChoiceClicked(){
@@ -189,6 +200,7 @@ class QuestionFragmetViewModel(questionClass: String) : ViewModel() {
             _firstChoiceBg.value = R.drawable.default_option_border_bg
             _secChoiceBg.value = R.drawable.default_option_border_bg
             _forthChoiceBg.value = R.drawable.default_option_border_bg
+            _btnSubmitEnabled.value = true
         }
     }
     fun onForthChoiceClicked(){
@@ -199,6 +211,7 @@ class QuestionFragmetViewModel(questionClass: String) : ViewModel() {
             _firstChoiceBg.value = R.drawable.default_option_border_bg
             _secChoiceBg.value = R.drawable.default_option_border_bg
             _thirdChoiceBg.value = R.drawable.default_option_border_bg
+            _btnSubmitEnabled.value = true
         }
     }
 
