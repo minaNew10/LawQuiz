@@ -67,14 +67,15 @@ class QuestionFragmetViewModel(questionClass: String) : ViewModel() {
        val chosenAnswer: LiveData<Int?>
            get() = _chosenAnswer
 
-
+    var questionsListener : ValueEventListener?
+    lateinit var databaseref : DatabaseReference
     init {
         //if the question is answered before, chosenAnswered will be assigned the chosen answer number otherwise it will be -1
         _chosenAnswer.value = _currQuestion.value?.chosenAnswer
         _currCategory.value = questionClass
         database = Firebase.database.reference
         var questions = ArrayList<Question?>()
-        val questionsListener = object :ValueEventListener{
+        questionsListener = object :ValueEventListener{
             override fun onCancelled(error: DatabaseError) {
 
              }
@@ -82,7 +83,7 @@ class QuestionFragmetViewModel(questionClass: String) : ViewModel() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 var numOfChildrens = snapshot.children.count()
 
-                //in order to generate random questions
+                //to generate random questions
 //                var list1 = numOfChildrens.let {
 //                    when{
 //                        it > 10 -> snapshot.children.chunked(10).get(0)
@@ -102,10 +103,12 @@ class QuestionFragmetViewModel(questionClass: String) : ViewModel() {
                _currQuestion.value =  _currPosition.value?.let {
                     _questionsLiveData.value?.get(it)
                 }
+//                _currQuestion.value = Question("12123","question body", arrayListOf("1","2","3","4"),"3","ref","easy","easy",1)
             }
 
         }
-        database.child("questions/$questionClass/moderate").addValueEventListener(questionsListener)
+        databaseref = database.child("questions/$questionClass/moderate")
+        databaseref.addValueEventListener(questionsListener!!)
         _btnSubmitText.value = R.string.submit_answer
         useDefaultBgAndTexts()
     }
@@ -214,6 +217,15 @@ class QuestionFragmetViewModel(questionClass: String) : ViewModel() {
             _btnSubmitEnabled.value = true
         }
     }
+
+    override fun onCleared() {
+
+        super.onCleared()
+        databaseref.removeEventListener(questionsListener!!)
+       // questionsListener = null
+
+    }
+
 
 
 
